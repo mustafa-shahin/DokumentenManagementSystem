@@ -1,0 +1,38 @@
+﻿<Application
+    x:Class="DokumentenManagementSystem.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dokumentenuebersicht="clr-namespace:DMS.View.Dokumentenuebersicht"
+    xmlns:dokumentenuebersicht1="clr-namespace:DMS.ViewModel.Dokumentenuebersicht;assembly=DMS.ViewModel"
+    xmlns:local="clr-namespace:DokumentenManagementSystem"
+    xmlns:nutzerverwaltung="clr-namespace:DMS.View.Nutzerverwaltung"
+    xmlns:nutzerverwaltung1="clr-namespace:DMS.ViewModel.Nutzerverwaltung;assembly=DMS.ViewModel"
+    xmlns:ordneruebersicht="clr-namespace:DMS.ViewModel.Ordneruebersicht;assembly=DMS.ViewModel"
+    xmlns:ordneruebersicht1="clr-namespace:DMS.View.Ordneruebersicht">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type dokumentenuebersicht1:DokumentenFrameVM}">
+                <dokumentenuebersicht:DokumentenFrame />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type dokumentenuebersicht1:DokumentenView1VM}">
+                <dokumentenuebersicht:DokumentenView1 />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nutzerverwaltung1:NutzerFrameVM}">
+                <nutzerverwaltung:NutzerFrame />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type nutzerverwaltung1:NutzerView1VM}">
+                <nutzerverwaltung:NutzerView1 />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ordneruebersicht:OrdnerFrameVM}">
+                <ordneruebersicht1:OrdnerFrame />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ordneruebersicht1:OrdnerView1}" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
