@@ -38,7 +38,7 @@ namespace DokumentenManagementSystem
             m_container.RegisterType<DokumenteService>();
             m_container.RegisterType<OrdnerService>();
             m_container.RegisterType<DataAccess>();
-
+            InitializeDatabase();
             MainWindowViewModel main = m_container.Resolve<MainWindowViewModel>();
 
             MainWindow mainWindow = new MainWindow()
@@ -46,6 +46,17 @@ namespace DokumentenManagementSystem
                 DataContext = main
             };
             mainWindow.Show();
+           
+        }
+        private void InitializeDatabase()
+        {
+            using (var context = new DataContext())
+            {
+                if (!System.IO.File.Exists(context.Path))
+                {
+                    context.Database.EnsureCreated();
+                }
+            }
         }
     }
 
