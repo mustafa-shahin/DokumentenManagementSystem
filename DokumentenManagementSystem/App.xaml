@@ -5,6 +5,8 @@
     xmlns:dokumentenuebersicht="clr-namespace:DMS.View.Dokumentenuebersicht"
     xmlns:dokumentenuebersicht1="clr-namespace:DMS.ViewModel.Dokumentenuebersicht;assembly=DMS.ViewModel"
     xmlns:local="clr-namespace:DokumentenManagementSystem"
+    xmlns:login="clr-namespace:DMS.ViewModel.Login;assembly=DMS.ViewModel"
+    xmlns:login1="clr-namespace:DokumentenManagementSystem.Login"
     xmlns:nutzerverwaltung="clr-namespace:DMS.View.Nutzerverwaltung"
     xmlns:nutzerverwaltung1="clr-namespace:DMS.ViewModel.Nutzerverwaltung;assembly=DMS.ViewModel"
     xmlns:ordneruebersicht="clr-namespace:DMS.ViewModel.Ordneruebersicht;assembly=DMS.ViewModel"
@@ -32,7 +34,13 @@
             <DataTemplate DataType="{x:Type ordneruebersicht:OrdnerFrameVM}">
                 <ordneruebersicht1:OrdnerFrame />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type ordneruebersicht1:OrdnerView1}" />
+            <DataTemplate DataType="{x:Type ordneruebersicht:OrdnerView1VM}">
+                <ordneruebersicht1:OrdnerView1 />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type login:LoginVM}">
+                <login1:LoginView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

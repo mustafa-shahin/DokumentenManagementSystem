@@ -1,6 +1,6 @@
 ﻿namespace DMS.ViewModel.Nutzerverwaltung;
 
-public class NutzerFrameVM : ViewModelBase
+public class NutzerFrameVM : ViewModelBase, INutzerFrameVM
 {
     
 }

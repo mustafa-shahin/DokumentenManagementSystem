@@ -1,6 +1,6 @@
 ﻿namespace DMS.ViewModel;
 
-public class MainWindowViewModel
+public class MainWindowViewModel : ViewModelBase
 {
     
 }

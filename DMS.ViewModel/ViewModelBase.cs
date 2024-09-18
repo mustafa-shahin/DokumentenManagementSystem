@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ViewModel.Interface;
 
 namespace DMS.ViewModel;
 
-public class ViewModelBase : INotifyPropertyChanged
+public class ViewModelBase : INotifyPropertyChanged, IViewModelBase
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

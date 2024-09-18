@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DMS.Model\DMS.Model.csproj" />
-    <ProjectReference Include="..\DMS.Service\DMS.Service.csproj" />
-    <ProjectReference Include="..\ViewModel.Interface\ViewModel.Interface.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Login\" />
   </ItemGroup>
 
