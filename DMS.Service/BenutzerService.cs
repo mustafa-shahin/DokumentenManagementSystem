@@ -33,10 +33,10 @@ namespace DMS.Service
                 return false;
             }
         }
-        public bool ValidateUser(string username, string password)
+        public Benutzer? LoginUser(string username, string password)
         {
             using var context = new DataContext();
-            return context.Benutzer.Any(b => b.Name == username && b.Passwort == password && b.IsActive);
+            return context.Benutzer.FirstOrDefault(b => b.Name == username && b.Passwort == password && b.IsActive);
         }
     }
 

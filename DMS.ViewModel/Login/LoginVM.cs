@@ -1,14 +1,13 @@
-﻿using DMS.Service;
-using System.Windows.Input;
+﻿using DMS.Model;
+using DMS.Service;
 using ViewModel.Interface.Login;
-using System.Windows;
-using DMS.ViewModel;
-using System.Diagnostics; // For RelayCommand
 
 namespace DMS.ViewModel.Login
 {
     public class LoginVM : ViewModelBase, ILoginVM
     {
+        private BenutzerService m_benutzerService;
+
         private string m_benutzer;
         private string m_passwort;
         private string m_signupBenutzer;
@@ -20,10 +19,9 @@ namespace DMS.ViewModel.Login
             get => m_benutzer;
             set
             {
-                if (SetField(ref m_benutzer, value))
-                {
-                    //könnte für loggin gebraucht werden 
-                }
+                if (value == m_benutzer) return;
+                m_benutzer = value;
+                OnPropertyChanged();
             }
         }
 
@@ -32,10 +30,9 @@ namespace DMS.ViewModel.Login
             get => m_passwort;
             set
             {
-                if (SetField(ref m_passwort, value))
-                {
-                    // könnte für loggin gebraucht werden 
-                }
+                if (value == m_passwort) return;
+                m_passwort = value;
+                OnPropertyChanged();
             }
         }
 
@@ -44,10 +41,9 @@ namespace DMS.ViewModel.Login
             get => m_signupBenutzer;
             set
             {
-                if (SetField(ref m_signupBenutzer, value))
-                {
-                    ((RelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
+                if (value == m_signupBenutzer) return;
+                m_signupBenutzer = value;
+                OnPropertyChanged();
             }
         }
 
@@ -56,10 +52,9 @@ namespace DMS.ViewModel.Login
             get => m_signupPasswort;
             set
             {
-                if (SetField(ref m_signupPasswort, value))
-                {
-                    ((RelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
+                if (value == m_signupPasswort) return;
+                m_signupPasswort = value;
+                OnPropertyChanged();
             }
         }
 
@@ -68,27 +63,47 @@ namespace DMS.ViewModel.Login
             get => m_signupPasswortConfirm;
             set
             {
-                if (SetField(ref m_signupPasswortConfirm, value))
-                {
-                    ((RelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
+                if (value == m_signupPasswortConfirm) return;
+                m_signupPasswortConfirm = value;
+                OnPropertyChanged();
             }
         }
 
-        private ICommand m_signupCommand;
-        public ICommand SignupCommand
+        public DelegateCommand LoginCommand { get; set; }
+        public DelegateCommand SignUpCommand { get; set; }
+
+        public event EventHandler<Benutzer> LoginSuccsess;
+
+        public LoginVM(BenutzerService benutzerService)
         {
-            get
+            m_benutzerService = benutzerService;
+
+            LoginCommand = new DelegateCommand(ExecuteLogin);
+            SignUpCommand = new DelegateCommand(ExecuteSignup);
+        }
+
+        private bool CanExecuteLogin()
+        {
+            return !string.IsNullOrEmpty(Benutzer) && !string.IsNullOrEmpty(Passwort);
+        }
+
+        private void ExecuteLogin(object? parameter)
+        {
+            if (CanExecuteLogin())
             {
-                if (m_signupCommand == null)
+                Benutzer currentUser = m_benutzerService.LoginUser(Benutzer, Passwort);
+                if (currentUser != null)
                 {
-                    m_signupCommand = new RelayCommand(ExecuteSignup, CanExecuteSignup);
+                    LoginSuccsess.Invoke(this, currentUser);
                 }
-                return m_signupCommand;
+                else
+                {
+
+                }
             }
         }
 
-        private bool CanExecuteSignup(object parameter)
+        private bool CanExecuteSignup()
         {
             bool canExecute = !string.IsNullOrEmpty(SignupBenutzer) &&
                               !string.IsNullOrEmpty(SignupPasswort) &&
@@ -99,50 +114,18 @@ namespace DMS.ViewModel.Login
 
         private void ExecuteSignup(object parameter)
         {
-            var userService = new BenutzerService();
-            bool success = userService.CreateUser(SignupBenutzer, SignupPasswort);
-            if (success)
+            if (CanExecuteSignup())
             {
-                // Optionally clear the fields
-                SignupBenutzer = string.Empty;
-                SignupPasswort = string.Empty;
-                SignupPasswortConfirm = string.Empty;
-            }
-            else
-            {
-            }
-        }
-
-        // Optional: Implement LoginCommand similarly if needed
-        private ICommand m_loginCommand;
-        public ICommand LoginCommand
-        {
-            get
-            {
-                if (m_loginCommand == null)
+                bool success = m_benutzerService.CreateUser(SignupBenutzer, SignupPasswort);
+                if (success)
                 {
-                    m_loginCommand = new RelayCommand(ExecuteLogin, CanExecuteLogin);
+                    SignupBenutzer = string.Empty;
+                    SignupPasswort = string.Empty;
+                    SignupPasswortConfirm = string.Empty;
                 }
-                return m_loginCommand;
-            }
-        }
-
-        private bool CanExecuteLogin(object parameter)
-        {
-            return !string.IsNullOrEmpty(Benutzer) && !string.IsNullOrEmpty(Passwort);
-        }
-
-        private void ExecuteLogin(object parameter)
-        {
-            var userService = new BenutzerService();
-            bool isValidUser = userService.ValidateUser(Benutzer, Passwort);
-            if (isValidUser)
-            {
-
-            }
-            else
-            {
-              
+                else
+                {
+                }
             }
         }
     }

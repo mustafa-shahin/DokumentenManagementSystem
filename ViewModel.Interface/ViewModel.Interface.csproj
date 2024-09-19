@@ -10,4 +10,8 @@
     <Folder Include="Login\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DMS.Model\DMS.Model.csproj" />
+  </ItemGroup>
+
 </Project>

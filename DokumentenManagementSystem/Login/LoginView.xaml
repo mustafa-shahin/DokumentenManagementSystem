@@ -9,294 +9,146 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <!-- Style for TabControl -->
-        <Style TargetType="TabControl">
-            <Setter Property="Background" Value="#1f1f1f"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-        </Style>
-
-        <!-- Style for TabItem -->
-        <Style TargetType="TabItem">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="10,2"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TabItem">
-                        <Border 
-                            Name="Border"
-                            Background="{TemplateBinding Background}"
-                            Padding="{TemplateBinding Padding}">
-                            <ContentPresenter 
-                                ContentSource="Header"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#183D3D"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#183D3D"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <TabControl>
-            <!-- Login Tab -->
+            <!--  Login Tab  -->
             <TabItem Header="Login">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="600">
+                <Grid
+                    MaxWidth="600"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.2*" />
+                    </Grid.ColumnDefinitions>
 
                     <TextBlock
                         Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
                         Margin="2"
-                        FontSize="36"
-                        Text="Dokumenten Management System"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        TextWrapping="Wrap"
-                        Foreground="White"/>
+                        FontSize="36"
+                        Foreground="White"
+                        Text="Dokumenten Management System"
+                        TextWrapping="Wrap" />
 
-                    <Grid Grid.Row="1" Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Text="Benutzer"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,10,0"
-                            Foreground="White"/>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="Benutzer" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=Benutzer}" />
 
-                        <Border 
-                            Grid.Column="1"
-                            Background="#3d3d3d" 
-                            CornerRadius="5" 
-                            BorderBrush="#1f1f1f" 
-                            BorderThickness="1">
-                            <TextBox 
-                            Text="{Binding Path=Benutzer}" 
-                            Background="Transparent" 
-                            BorderThickness="0"
-                            Height="30"/>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="2" Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Text="Passwort"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,10,0"
-                            Foreground="White"/>
-
-                        <Border 
-                            Grid.Column="1"
-                            Background="#3d3d3d" 
-                            CornerRadius="5" 
-                            BorderBrush="#1f1f1f" 
-                            BorderThickness="1">
-                            <TextBox 
-                             Text="{Binding Path=Passwort}" 
-                             Background="Transparent" 
-                             BorderThickness="0"
-                             Height="30"/>
-                        </Border>
-                    </Grid>
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="Passwort" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=Passwort}" />
 
                     <Button
                         Grid.Row="3"
+                        Grid.Column="1"
                         Margin="2"
                         HorizontalAlignment="Right"
                         Command="{Binding Path=LoginCommand}"
-                        Content="Login"
-                        Width="100">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                    x:Name="border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    CornerRadius="5"
-                                    BorderThickness="1">
-                                    <ContentPresenter
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Margin="5" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#5C8374" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#5C8374" />
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#5C8374" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Background>#183D3D</Button.Background>
-                        <Button.BorderBrush>#183D3D</Button.BorderBrush>
-                        <Button.Foreground>White</Button.Foreground>
-                    </Button>
+                        Content="Login" />
                 </Grid>
             </TabItem>
 
-            <!-- Signup Tab -->
+            <!--  Signup Tab  -->
             <TabItem Header="Signup">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="600">
+                <Grid
+                    MaxWidth="600"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.2*" />
+                    </Grid.ColumnDefinitions>
 
                     <TextBlock
                         Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
                         Margin="2"
-                        FontSize="36"
-                        Text="Dokumenten Management System"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        TextWrapping="Wrap"
-                        Foreground="White"/>
+                        FontSize="36"
+                        Foreground="White"
+                        Text="Dokumenten Management System"
+                        TextWrapping="Wrap" />
 
-                    <Grid Grid.Row="1" Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Text="Benutzer"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,10,0"
-                            Foreground="White"/>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        Text="Benutzer" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=SignupBenutzer}" />
 
-                        <Border 
-                            Grid.Column="1"
-                            Background="#3d3d3d" 
-                            CornerRadius="5" 
-                            BorderBrush="#1f1f1f" 
-                            BorderThickness="1">
-                            <TextBox 
-                            Text="{Binding SignupBenutzer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            Background="Transparent" 
-                            BorderThickness="0"
-                            Height="30"/>
-                        </Border>
-                    </Grid>
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        Text="Passwort" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=SignupPasswort}" />
 
-                    <Grid Grid.Row="2" Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Text="Passwort"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,10,0"
-                            Foreground="White"/>
-
-                        <Border 
-                            Grid.Column="1"
-                            Background="#3d3d3d" 
-                            CornerRadius="5" 
-                            BorderBrush="#1f1f1f" 
-                            BorderThickness="1">
-                            <TextBox 
-                            Text="{Binding SignupPasswort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Background="Transparent" 
-                             BorderThickness="0"
-                             Height="30"/>
-                        </Border>
-                    </Grid>
-
-                    <Grid Grid.Row="3" Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Text="Passwort Bestätigen"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,10,0"
-                            Foreground="White"/>
-
-                        <Border 
-                            Grid.Column="1"
-                            Background="#3d3d3d" 
-                            CornerRadius="5" 
-                            BorderBrush="#1f1f1f" 
-                            BorderThickness="1">
-                            <TextBox 
-                            Text="{Binding SignupPasswortConfirm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             Background="Transparent" 
-                             BorderThickness="0"
-                             Height="30"/>
-                        </Border>
-                    </Grid>
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        Text="Passwort Bestätigen" />
+                    <TextBox
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=SignupPasswortConfirm}" />
 
                     <Button
                         Grid.Row="4"
+                        Grid.Column="1"
                         Margin="2"
                         HorizontalAlignment="Right"
-                        Command="{Binding SignupCommand}"
-                        Content="Signup"
-                        Width="100">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                    x:Name="border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    CornerRadius="5"
-                                    BorderThickness="1">
-                                    <ContentPresenter
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Margin="5" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#5C8374" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#5C8374" />
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#5C8374" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Background>#183D3D</Button.Background>
-                        <Button.BorderBrush>#183D3D</Button.BorderBrush>
-                        <Button.Foreground>White</Button.Foreground>
-                    </Button>
+                        Command="{Binding Path=SignUpCommand}"
+                        Content="Login" />
                 </Grid>
             </TabItem>
         </TabControl>
