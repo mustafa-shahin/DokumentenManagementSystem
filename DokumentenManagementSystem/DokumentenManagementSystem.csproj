@@ -25,4 +25,8 @@
     <ProjectReference Include="..\DMS.ViewModel\DMS.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Converter\" />
+  </ItemGroup>
+
 </Project>

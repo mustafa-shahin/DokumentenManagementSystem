@@ -37,7 +37,6 @@ namespace DokumentenManagementSystem
             m_container.RegisterType<BenutzerService>();
             m_container.RegisterType<DokumenteService>();
             m_container.RegisterType<OrdnerService>();
-            m_container.RegisterType<DataAccess>();
             MainWindowViewModel main = m_container.Resolve<MainWindowViewModel>();
 
             MainWindow mainWindow = new MainWindow()

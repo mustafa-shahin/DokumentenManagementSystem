@@ -9,6 +9,6 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <TextBlock Text="Ordner" />
+        <ContentControl Content="{Binding Path=CurrentView}" />
     </Grid>
 </UserControl>

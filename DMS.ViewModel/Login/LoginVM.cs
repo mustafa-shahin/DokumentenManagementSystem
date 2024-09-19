@@ -77,6 +77,10 @@ namespace DMS.ViewModel.Login
         public LoginVM(BenutzerService benutzerService)
         {
             m_benutzerService = benutzerService;
+
+            LoginCommand = new DelegateCommand(ExecuteLogin);
+            SignUpCommand = new DelegateCommand(ExecuteSignup);
+
             Init();
         }
 
@@ -87,9 +91,6 @@ namespace DMS.ViewModel.Login
             SignupBenutzer = string.Empty;
             SignupPasswort = string.Empty;
             SignupPasswortConfirm = string.Empty;
-
-            LoginCommand = new DelegateCommand(ExecuteLogin);
-            SignUpCommand = new DelegateCommand(ExecuteSignup);
         }
 
         private bool CanExecuteLogin()
