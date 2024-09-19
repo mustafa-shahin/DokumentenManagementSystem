@@ -25,7 +25,7 @@ namespace DokumentenManagementSystem
             base.OnStartup(e);
             m_container = new UnityContainer();
             m_container.RegisterType<MainWindowViewModel>();
-
+            m_container.RegisterType<IMainFrameVM, MainFrameVM>();
             m_container.RegisterType<IDokumentenFrameVM, DokumentenFrameVM>();
             m_container.RegisterType<IDokumentenView1VM, DokumentenView1VM>();
             m_container.RegisterType<INutzerFrameVM, NutzerFrameVM>();

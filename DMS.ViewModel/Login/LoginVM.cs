@@ -72,11 +72,21 @@ namespace DMS.ViewModel.Login
         public DelegateCommand LoginCommand { get; set; }
         public DelegateCommand SignUpCommand { get; set; }
 
-        public event EventHandler<Benutzer> LoginSuccsess;
+        public event EventHandler<Benutzer> LoginEvent;
 
         public LoginVM(BenutzerService benutzerService)
         {
             m_benutzerService = benutzerService;
+            Init();
+        }
+
+        public void Init()
+        {
+            Benutzer = string.Empty;
+            Passwort = string.Empty;
+            SignupBenutzer = string.Empty;
+            SignupPasswort = string.Empty;
+            SignupPasswortConfirm = string.Empty;
 
             LoginCommand = new DelegateCommand(ExecuteLogin);
             SignUpCommand = new DelegateCommand(ExecuteSignup);
@@ -94,7 +104,7 @@ namespace DMS.ViewModel.Login
                 Benutzer currentUser = m_benutzerService.LoginUser(Benutzer, Passwort);
                 if (currentUser != null)
                 {
-                    LoginSuccsess.Invoke(this, currentUser);
+                    LoginEvent.Invoke(this, currentUser);
                 }
                 else
                 {

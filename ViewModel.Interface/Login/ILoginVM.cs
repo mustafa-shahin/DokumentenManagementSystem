@@ -4,5 +4,6 @@ namespace ViewModel.Interface.Login;
 
 public interface ILoginVM : IViewModelBase
 {
-    event EventHandler<Benutzer> LoginSuccsess;
+    event EventHandler<Benutzer> LoginEvent;
+    void Init();
 }

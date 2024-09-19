@@ -1,4 +1,5 @@
 ﻿using DMS.Model;
+using DMS.ViewModel.Ordneruebersicht;
 using ViewModel.Interface;
 using ViewModel.Interface.Login;
 
@@ -7,6 +8,7 @@ namespace DMS.ViewModel;
 public class MainWindowViewModel : ViewModelBase
 {
     private ILoginVM m_loginVM;
+    private IMainFrameVM m_mainFrameVM;
     private IViewModelBase m_currentView;
 
     private Benutzer m_currentUser;
@@ -33,20 +35,31 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public MainWindowViewModel(ILoginVM login)
+    public MainWindowViewModel(ILoginVM login, IMainFrameVM mainFrameVM)
     {
         m_loginVM = login;
+        m_mainFrameVM = mainFrameVM;
         Init();
     }
 
     private void Init()
     {
         CurrentView = m_loginVM;
-        m_loginVM.LoginSuccsess += ChangeCurrentUser;
+        m_loginVM.LoginEvent += LoginUser;
+        m_mainFrameVM.LogoutEvent += LogoutUser;
     }
 
-    private void ChangeCurrentUser(object sender, Benutzer currentuser)
+    private void LoginUser(object sender, Benutzer currentuser)
     {
         CurrentUser = currentuser;
+        m_mainFrameVM.Init(currentuser);
+        CurrentView = m_mainFrameVM;
+    }
+
+    private void LogoutUser(object sender, EventArgs e)
+    {
+        CurrentUser = null;
+        m_loginVM.Init();
+        CurrentView = m_loginVM;
     }
 }
