@@ -8,55 +8,150 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid
-        Width="600"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.ColumnSpan="2"
-            Margin="2"
-            FontSize="36"
-            Text="Dokumenten Management System" />
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TabControl>
+            <!--  Login Tab  -->
+            <TabItem Header="Login">
+                <Grid
+                    MaxWidth="600"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.2*" />
+                    </Grid.ColumnDefinitions>
 
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="2"
-            Text="Benutzer" />
-        <TextBox
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="2"
-            Text="{Binding Path=Benutzer}" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="36"
+                        Foreground="White"
+                        Text="Dokumenten Management System"
+                        TextWrapping="Wrap" />
 
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="2"
-            Text="Passwort" />
-        <TextBox
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="2"
-            Text="{Binding Path=Passwort}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="Benutzer" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=Benutzer}" />
 
-        <Button
-            Grid.Row="3"
-            Grid.Column="1"
-            Margin="2"
-            HorizontalAlignment="Right"
-            Command="{Binding Path=LoginCommand}"
-            Content="Login" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="Passwort" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=Passwort}" />
+
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="2"
+                        HorizontalAlignment="Right"
+                        Command="{Binding Path=LoginCommand}"
+                        Content="Login" />
+                </Grid>
+            </TabItem>
+
+            <!--  Signup Tab  -->
+            <TabItem Header="Signup">
+                <Grid
+                    MaxWidth="600"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="36"
+                        Foreground="White"
+                        Text="Dokumenten Management System"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        Text="Benutzer" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=SignupBenutzer}" />
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        Text="Passwort" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=SignupPasswort}" />
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="10,2"
+                        Text="Passwort Bestätigen" />
+                    <TextBox
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="2"
+                        Text="{Binding Path=SignupPasswortConfirm}" />
+
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Margin="2"
+                        HorizontalAlignment="Right"
+                        Command="{Binding Path=SignUpCommand}"
+                        Content="SignUp" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </UserControl>

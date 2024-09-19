@@ -25,7 +25,7 @@ namespace DokumentenManagementSystem
             base.OnStartup(e);
             m_container = new UnityContainer();
             m_container.RegisterType<MainWindowViewModel>();
-
+            m_container.RegisterType<IMainFrameVM, MainFrameVM>();
             m_container.RegisterType<IDokumentenFrameVM, DokumentenFrameVM>();
             m_container.RegisterType<IDokumentenView1VM, DokumentenView1VM>();
             m_container.RegisterType<INutzerFrameVM, NutzerFrameVM>();
@@ -38,7 +38,6 @@ namespace DokumentenManagementSystem
             m_container.RegisterType<DokumenteService>();
             m_container.RegisterType<OrdnerService>();
             m_container.RegisterType<DataAccess>();
-
             MainWindowViewModel main = m_container.Resolve<MainWindowViewModel>();
 
             MainWindow mainWindow = new MainWindow()
@@ -46,6 +45,7 @@ namespace DokumentenManagementSystem
                 DataContext = main
             };
             mainWindow.Show();
+           
         }
     }
 
