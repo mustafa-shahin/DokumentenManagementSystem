@@ -32,7 +32,8 @@
                     Height="75"
                     Margin="2"
                     Command="{Binding Path=NutzerCommand}"
-                    Content="Nutzer" />
+                    Content="Nutzer"
+                    Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}" />
             </WrapPanel>
 
             <Button
