@@ -22,6 +22,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -75,7 +76,12 @@
                         HorizontalAlignment="Right"
                         Command="{Binding Path=LoginCommand}"
                         Content="Login" />
-                </Grid>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="#822424" FontWeight="Bold"
+                               Text="{Binding Path=LoginErrorMessage}" />                
+                               </Grid>
             </TabItem>
 
             <!--  Signup Tab  -->
@@ -85,6 +91,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -149,6 +156,10 @@
                         HorizontalAlignment="Right"
                         Command="{Binding Path=SignUpCommand}"
                         Content="SignUp" />
+                                 <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="#822424" FontWeight="Bold"
+                               Text="{Binding Path=SignupErrorMessage}" />
                 </Grid>
             </TabItem>
         </TabControl>

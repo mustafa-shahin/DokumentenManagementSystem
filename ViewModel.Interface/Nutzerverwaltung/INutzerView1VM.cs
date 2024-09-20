@@ -5,5 +5,5 @@ namespace DMS.ViewModel.Nutzerverwaltung;
 
 public interface INutzerView1VM : IViewModelBase
 {
-    void Init(Benutzer currentUser);
+    Task Init(Benutzer currentUser);
 }
