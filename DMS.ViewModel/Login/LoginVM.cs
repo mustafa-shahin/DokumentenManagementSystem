@@ -1,6 +1,5 @@
 ﻿using DMS.Model;
 using DMS.Service;
-using System.ComponentModel.DataAnnotations;
 using ViewModel.Interface.Login;
 
 namespace DMS.ViewModel.Login
@@ -72,7 +71,6 @@ namespace DMS.ViewModel.Login
             }
         }
 
-        // Error messages
         public string LoginErrorMessage
         {
             get => m_loginErrorMessage;
@@ -161,14 +159,6 @@ namespace DMS.ViewModel.Login
                     Passwort = SignupPasswort
                 };
 
-                var validationResults = new List<ValidationResult>();
-                var context = new ValidationContext(newUser);
-
-                if (!Validator.TryValidateObject(newUser, context, validationResults, true))
-                {
-                    SignupErrorMessage = validationResults.FirstOrDefault()?.ErrorMessage;
-                    return;
-                }
 
                 bool success = m_benutzerService.CreateUser(SignupBenutzer, SignupPasswort);
                 if (success)
