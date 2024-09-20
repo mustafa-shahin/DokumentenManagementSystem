@@ -2,6 +2,7 @@
     x:Class="DokumentenManagementSystem.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:DokumentenManagementSystem.Converter"
     xmlns:dokumentenuebersicht="clr-namespace:DMS.View.Dokumentenuebersicht"
     xmlns:dokumentenuebersicht1="clr-namespace:DMS.ViewModel.Dokumentenuebersicht;assembly=DMS.ViewModel"
     xmlns:local="clr-namespace:DokumentenManagementSystem"
@@ -17,6 +18,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converter:CheckmarkConverter x:Key="CheckmarkConverter" />
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
             <DataTemplate DataType="{x:Type viewModel:MainFrameVM}">
                 <local:MainFrame />

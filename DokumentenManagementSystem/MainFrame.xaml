@@ -14,13 +14,43 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="0" Margin="10">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <WrapPanel Grid.Column="0" Margin="10">
+                <Button
+                    Width="150"
+                    Height="75"
+                    Margin="2"
+                    Command="{Binding Path=OrdnerCommand}"
+                    Content="Ordner" />
+                <Button
+                    Width="150"
+                    Height="75"
+                    Margin="2"
+                    Command="{Binding Path=NutzerCommand}"
+                    Content="Nutzer"
+                    Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </WrapPanel>
+
             <Button
+                Grid.Column="1"
                 Width="150"
                 Height="75"
+                Margin="10"
                 Command="{Binding Path=LogoutCommand}"
                 Content="Logout" />
-        </WrapPanel>
+        </Grid>
 
+        <Border
+            Grid.Row="1"
+            Margin="10"
+            Background=" #252525"
+            CornerRadius="10">
+            <ContentControl Margin="10" Content="{Binding Path=CurrentView}" />
+        </Border>
     </Grid>
 </UserControl>

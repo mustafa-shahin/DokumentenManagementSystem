@@ -19,7 +19,7 @@ namespace DMS.Service
                 {
                     Name = username,
                     Passwort = password,
-                    IsActive = true,
+                    IsActive = false,
                     IsAdmin = false
                 };
 
@@ -37,6 +37,34 @@ namespace DMS.Service
         {
             using var context = new DataContext();
             return context.Benutzer.FirstOrDefault(b => b.Name == username && b.Passwort == password && b.IsActive);
+        }
+
+        public List<Benutzer> GetAllUsers()
+        {
+            using var context = new DataContext();
+            return context.Benutzer.ToList();
+        }
+
+        public void SaveChanges(Benutzer benutzer)
+        {
+            try
+            {
+                using var context = new DataContext();
+                var entity = context.Benutzer.FirstOrDefault(b => b.Id == benutzer.Id);
+                if (entity != null)
+                {
+                    entity.Name = benutzer.Name;
+                    entity.Passwort = benutzer.Passwort;
+                    entity.IsAdmin = benutzer.IsAdmin;
+                    entity.IsActive = benutzer.IsActive;
+                }
+
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occorred: {ex.Message}");
+            }
         }
     }
 
