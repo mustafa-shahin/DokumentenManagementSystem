@@ -13,6 +13,8 @@ namespace DMS.ViewModel.Login
         private string m_signupBenutzer;
         private string m_signupPasswort;
         private string m_signupPasswortConfirm;
+        private string m_loginErrorMessage;
+        private string m_signupErrorMessage;
 
         public string Benutzer
         {
@@ -69,6 +71,26 @@ namespace DMS.ViewModel.Login
             }
         }
 
+        public string LoginErrorMessage
+        {
+            get => m_loginErrorMessage;
+            set
+            {
+                m_loginErrorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SignupErrorMessage
+        {
+            get => m_signupErrorMessage;
+            set
+            {
+                m_signupErrorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public DelegateCommand LoginCommand { get; set; }
         public DelegateCommand SignUpCommand { get; set; }
 
@@ -77,10 +99,8 @@ namespace DMS.ViewModel.Login
         public LoginVM(BenutzerService benutzerService)
         {
             m_benutzerService = benutzerService;
-
             LoginCommand = new DelegateCommand(ExecuteLogin);
             SignUpCommand = new DelegateCommand(ExecuteSignup);
-
             Init();
         }
 
@@ -91,6 +111,8 @@ namespace DMS.ViewModel.Login
             SignupBenutzer = string.Empty;
             SignupPasswort = string.Empty;
             SignupPasswortConfirm = string.Empty;
+            LoginErrorMessage = string.Empty;
+            SignupErrorMessage = string.Empty;
         }
 
         private bool CanExecuteLogin()
@@ -102,41 +124,54 @@ namespace DMS.ViewModel.Login
         {
             if (CanExecuteLogin())
             {
-                Benutzer currentUser = m_benutzerService.LoginUser(Benutzer, Passwort);
+                var currentUser = m_benutzerService.LoginUser(Benutzer, Passwort);
                 if (currentUser != null)
                 {
-                    LoginEvent.Invoke(this, currentUser);
+                    LoginErrorMessage = string.Empty;
+                    LoginEvent?.Invoke(this, currentUser);
                 }
                 else
                 {
-
+                    LoginErrorMessage = "Benutzername oder Passwort ist falsch.";
                 }
             }
         }
 
-        private bool CanExecuteSignup()
+        private async void ExecuteSignup(object parameter)
         {
-            bool canExecute = !string.IsNullOrEmpty(SignupBenutzer) &&
-                              !string.IsNullOrEmpty(SignupPasswort) &&
-                              SignupPasswort == SignupPasswortConfirm;
-            return canExecute;
-        }
-
-
-        private void ExecuteSignup(object parameter)
-        {
-            if (CanExecuteSignup())
+            if (SignupPasswort != SignupPasswortConfirm)
             {
+                SignupErrorMessage = "Die eingegebenen Passwörter sind nicht identisch.";
+                return;
+            }
+
+            if (await m_benutzerService.UserExist(SignupBenutzer))
+            {
+                SignupErrorMessage = "Der Benutzername ist bereits vergeben.";
+                return;
+            }
+
+            try
+            {
+                var newUser = new Benutzer
+                {
+                    Name = SignupBenutzer,
+                    Passwort = SignupPasswort
+                };
+
+
                 bool success = m_benutzerService.CreateUser(SignupBenutzer, SignupPasswort);
                 if (success)
                 {
+                    SignupErrorMessage = string.Empty;
                     SignupBenutzer = string.Empty;
                     SignupPasswort = string.Empty;
                     SignupPasswortConfirm = string.Empty;
                 }
-                else
-                {
-                }
+            }
+            catch (Exception ex)
+            {
+                SignupErrorMessage = $"Ein Fehler ist aufgetreten: {ex.Message}";
             }
         }
     }

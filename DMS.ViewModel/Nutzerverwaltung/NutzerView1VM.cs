@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using DMS.Model;
 using DMS.Service;
 
@@ -42,14 +42,15 @@ namespace DMS.ViewModel.Nutzerverwaltung
             SaveBenutzerCommand = new DelegateCommand(SaveChanges);
         }
 
-        public void Init(Benutzer currentUser)
+        public async Task Init(Benutzer currentUser)
         {
             CurrentUser = currentUser;
 
+            var users = await m_benutzerService.GetAllUsers();
+
             BenutzerCollection = new ObservableCollection<Benutzer>(
-       m_benutzerService.GetAllUsers()
-       .OrderByDescending(b => b.IsAdmin)    
-       .ThenByDescending(b => b.IsActive));
+                users.OrderByDescending(b => b.IsAdmin)
+                     .ThenByDescending(b => b.IsActive));
         }
 
         private void SaveChanges(object? o)
