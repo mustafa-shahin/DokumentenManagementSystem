@@ -14,12 +14,12 @@ namespace DMS.Service
                 {
                     return false;
                 }
-            
+
                 var newUser = new Benutzer
                 {
                     Name = username,
                     Passwort = password,
-                    IsActive = false,
+                    IsActive = true,
                     IsAdmin = false
                 };
 
@@ -33,6 +33,7 @@ namespace DMS.Service
                 return false;
             }
         }
+
         public Benutzer? LoginUser(string username, string password)
         {
             using var context = new DataContext();
@@ -56,16 +57,15 @@ namespace DMS.Service
                     entity.Name = benutzer.Name;
                     entity.Passwort = benutzer.Passwort;
                     entity.IsAdmin = benutzer.IsAdmin;
-                    entity.IsActive = benutzer.IsActive;
+                    entity.IsActive = benutzer.IsActive; 
                 }
 
                 context.SaveChanges();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occorred: {ex.Message}");
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
     }
-
 }
