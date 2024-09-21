@@ -6,4 +6,6 @@ public class Ordner
     public string Name { get; set; }
     public int Order { get; set; }
     public List<string> SearchTags { get; set; }
+    public int BenutzerId { get; set; }
+    public Benutzer Benutzer { get; set; }
 }
