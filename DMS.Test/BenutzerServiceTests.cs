@@ -53,13 +53,13 @@ namespace DMS.Tests
             var context = GetCreateTestDbContext();
             var service = new BenutzerService(context);
 
-            string uniqueUsername = "testuser_" + Guid.NewGuid().ToString();
-            await service.CreateUser(uniqueUsername, "testpassword");
+            //string uniqueUsername = "testuser_" + Guid.NewGuid().ToString();
+            await service.CreateUser("testuser", "testpassword");
 
-            var user = await service.LoginUser(uniqueUsername, "testpassword");
+            var user = await service.LoginUser("testuser", "testpassword");
 
             Assert.NotNull(user);
-            Assert.Equal(uniqueUsername, user.Name);
+            Assert.Equal("testuser", user.Name);
         }
 
         [Fact]
@@ -69,10 +69,10 @@ namespace DMS.Tests
             var context = GetCreateTestDbContext();
             var service = new BenutzerService(context);
 
-            string uniqueUsername = "testuser_" + Guid.NewGuid().ToString();
-            await service.CreateUser(uniqueUsername, "testpassword");
+            //string uniqueUsername = "testuser_" + Guid.NewGuid().ToString();
+            await service.CreateUser("testuser", "testpassword");
 
-            var user = await service.LoginUser(uniqueUsername, "wrongpassword");
+            var user = await service.LoginUser("testuser", "wrongpassword");
 
             Assert.Null(user);
         }
