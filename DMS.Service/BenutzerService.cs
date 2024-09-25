@@ -29,7 +29,7 @@ namespace DMS.Service
                 {
                     Name = username,
                     Passwort = password,
-                    IsActive = true,
+                    IsActive = false,
                     IsAdmin = false
                 };
 

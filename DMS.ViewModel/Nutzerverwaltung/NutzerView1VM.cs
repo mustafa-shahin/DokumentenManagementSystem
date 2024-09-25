@@ -62,5 +62,13 @@ namespace DMS.ViewModel.Nutzerverwaltung
                 Init(CurrentUser);
             }
         }
+        //private void SaveChanges(object? o)
+        //{
+        //    if (o is Benutzer benutzer && benutzer != null)
+        //    {
+        //        _ = m_benutzerService.SaveChanges(benutzer);
+        //        _ = Init(CurrentUser);
+        //    }
+        //}
     }
 }
