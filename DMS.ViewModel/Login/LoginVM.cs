@@ -1,6 +1,8 @@
 ﻿using DMS.Model;
 using DMS.Service;
 using ViewModel.Interface.Login;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace DMS.ViewModel.Login
 {
@@ -120,11 +122,11 @@ namespace DMS.ViewModel.Login
             return !string.IsNullOrEmpty(Benutzer) && !string.IsNullOrEmpty(Passwort);
         }
 
-        private void ExecuteLogin(object? parameter)
+        private async void ExecuteLogin(object? parameter)
         {
             if (CanExecuteLogin())
             {
-                var currentUser = m_benutzerService.LoginUser(Benutzer, Passwort);
+                var currentUser = await m_benutzerService.LoginUser(Benutzer, Passwort);
                 if (currentUser != null)
                 {
                     LoginErrorMessage = string.Empty;
@@ -145,7 +147,26 @@ namespace DMS.ViewModel.Login
                 return;
             }
 
-            if (await m_benutzerService.UserExist(SignupBenutzer))
+            var newUser = new Benutzer
+            {
+                Name = SignupBenutzer,
+                Passwort = SignupPasswort
+            };
+
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(newUser);
+            bool isValid = Validator.TryValidateObject(newUser, validationContext, validationResults, true);
+
+            if (!isValid)
+            {
+                foreach (var validationResult in validationResults)
+                {
+                    SignupErrorMessage = validationResult.ErrorMessage;
+                    return;
+                }
+            }
+
+            if (await m_benutzerService.UserExists(SignupBenutzer))
             {
                 SignupErrorMessage = "Der Benutzername ist bereits vergeben.";
                 return;
@@ -153,14 +174,7 @@ namespace DMS.ViewModel.Login
 
             try
             {
-                var newUser = new Benutzer
-                {
-                    Name = SignupBenutzer,
-                    Passwort = SignupPasswort
-                };
-
-
-                bool success = m_benutzerService.CreateUser(SignupBenutzer, SignupPasswort);
+                bool success = await m_benutzerService.CreateUser(SignupBenutzer, SignupPasswort);
                 if (success)
                 {
                     SignupErrorMessage = string.Empty;

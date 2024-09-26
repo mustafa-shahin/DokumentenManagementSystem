@@ -1,23 +1,26 @@
 ﻿using DMS.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace DMS.DataAccess;
-
-public class DataContext : DbContext
+namespace DMS.DataAccess
 {
-    public DbSet<Benutzer> Benutzer { get; set; }
-    public DbSet<Dokument> Dokumente { get; set; }
-    public DbSet<Ordner> Ordner { get; set; }
-
-    public string Path { get; set; }
-
-    public DataContext()
+    public class DataContext : DbContext
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        Path = System.IO.Path.Join(path, "dms.db");
-    }
+        public DbSet<Benutzer> Benutzer { get; set; }
+        public DbSet<Dokument> Dokumente { get; set; }
+        public DbSet<Ordner> Ordner { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseSqlite($"Data Source={Path}");
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured) // Ensure this is only configured if not already done
+            {
+                var folder = Environment.SpecialFolder.LocalApplicationData;
+                var path = System.IO.Path.Join(Environment.GetFolderPath(folder), "dms.db");
+                optionsBuilder.UseSqlite($"Data Source={path}");
+            }
+        }
+    }
 }
