@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\icon.ico" />
+    <None Remove="Assets\folder-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +30,10 @@
 
   <ItemGroup>
     <Folder Include="Converter\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\folder-icon.png" />
   </ItemGroup>
 
 </Project>

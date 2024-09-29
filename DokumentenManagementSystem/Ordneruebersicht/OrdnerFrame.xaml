@@ -2,13 +2,83 @@
     x:Class="DMS.View.Ordneruebersicht.OrdnerFrame"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:DMS.View.Ordneruebersicht"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d">
+    MouseDown="OnUserControlMouseDown">
+
     <Grid>
-        <ContentControl Content="{Binding Path=CurrentView}" />
+        <StackPanel>
+            <Button
+                Width="200"
+                Height="75"
+                Margin="2"
+                Command="{Binding Path=CreateFolderCommand}"
+                Content="Neuen Ordner erstellen"
+                Style="{StaticResource ButtonStyle}"/>
+
+            <ItemsControl x:Name="FolderItemsControl"
+                          ItemsSource="{Binding Path=OrdnerCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="8"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5"
+                                Background="Transparent"
+                                CornerRadius="5">
+                            <StackPanel HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                <Image Source="pack://application:,,,/Assets/folder-icon.png"
+                                       Width="50"
+                                       Height="50"/>
+
+                                <TextBox
+                                    x:Name="FolderNameTextBox"
+                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="2,5,2,0"
+                                    Background="Transparent"
+                                    Foreground="White"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="14"
+                                    CaretBrush="White"
+                                    SelectionBrush="White"
+                                    LostFocus="TextBox_LostFocus"
+                                    PreviewMouseDown="TextBox_PreviewMouseDown"
+                                    PreviewKeyDown="TextBox_PreviewKeyDown"
+                                    MinWidth="50"
+                                    MaxWidth="200"
+                                    TextWrapping="Wrap"
+                                    AcceptsReturn="False">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="BorderBrush"
+                                                    Value="Transparent"/>
+                                            <Setter Property="BorderThickness"
+                                                    Value="1"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsFocused"
+                                                         Value="True">
+                                                    <Setter Property="BorderBrush"
+                                                            Value="White"/>
+                                                    <Setter Property="BorderThickness"
+                                                            Value="1"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </UserControl>
