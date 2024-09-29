@@ -1,9 +1,7 @@
 using DMS.DataAccess;
 using DMS.Service;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
-using Xunit;
+
 
 namespace DMS.Tests
 {
@@ -53,8 +51,11 @@ namespace DMS.Tests
             var context = GetCreateTestDbContext();
             var service = new BenutzerService(context);
 
-            //string uniqueUsername = "testuser_" + Guid.NewGuid().ToString();
             await service.CreateUser("testuser", "testpassword");
+
+            var createdUser = await context.Benutzer.FirstOrDefaultAsync(b => b.Name == "testuser");
+            createdUser.IsActive = true;
+            await context.SaveChangesAsync();
 
             var user = await service.LoginUser("testuser", "testpassword");
 
