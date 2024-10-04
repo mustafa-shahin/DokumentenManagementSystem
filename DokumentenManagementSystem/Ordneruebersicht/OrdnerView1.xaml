@@ -9,7 +9,7 @@
     d:DesignWidth="800"
     mc:Ignorable="d"
     MouseDown="OnUserControlMouseDown">
-    <Grid>
+    <Grid  Background="Transparent">
         <StackPanel>
             <Button
         Width="200"
