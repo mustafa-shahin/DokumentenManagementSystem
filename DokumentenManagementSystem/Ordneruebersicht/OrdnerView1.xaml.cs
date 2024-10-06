@@ -16,18 +16,27 @@ namespace DMS.View.Ordneruebersicht
         public OrdnerView1()
         {
             InitializeComponent();
-            var viewModel = DataContext as OrdnerView1VM;
-            if (viewModel != null)
+            if (DataContext is OrdnerView1VM viewModel)
             {
                 viewModel.FolderCreated += OnFolderCreated;
             }
+            this.Loaded += OrdnerView1_Loaded;
+            this.Unloaded += OrdnerView1_Unloaded;
+        }
+        private void OrdnerView1_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Deactivated -= Application_Deactivated;
+        }
+
+        private void OrdnerView1_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Deactivated += Application_Deactivated;
         }
         private async void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox && textBox.DataContext is Ordner folder)
             {
-                var viewModel = DataContext as OrdnerView1VM;
-                if (viewModel != null)
+                if (DataContext is OrdnerView1VM viewModel)
                 {
                     await viewModel.SaveFolderChangesAsync(folder);
                 }
@@ -63,29 +72,56 @@ namespace DMS.View.Ordneruebersicht
             if (e.Key == Key.Enter)
                 Keyboard.ClearFocus();
         }
-
         private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (textBox == _lastFocusedTextBox && textBox.IsFocused)
-                    e.Handled = false;
-                else
+                if (!textBox.IsFocused)
                 {
-                    // If the TextBox is not focused, select all text
                     textBox.Focus();
                     textBox.SelectAll();
                     _lastFocusedTextBox = textBox;
-                    e.Handled = true;  // Mark the event as handled to prevent double clicks
+                    e.Handled = true; 
+                }
+                else
+                {
+                    e.Handled = false; 
+                }
+            }
+            if (this.DataContext is OrdnerView1VM viewModel)
+            {
+                if (sender is TextBox TextBox && TextBox.DataContext is Ordner folder)
+                {
+                    viewModel.SelectedFolder = folder;
                 }
             }
         }
 
         private void OnUserControlMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (_lastFocusedTextBox != null)
+            if (this.DataContext is OrdnerView1VM viewModel && viewModel.SelectedFolder != null)
             {
                 Keyboard.ClearFocus();
+                _ = viewModel.SaveFolderChangesAsync(viewModel.SelectedFolder);
+            }
+        }
+        private void Application_Deactivated(object sender, EventArgs e)
+        {
+            if (_lastFocusedTextBox != null)
+            {
+                var textBox = _lastFocusedTextBox;
+                var binding = textBox.GetBindingExpression(TextBox.TextProperty);
+                binding?.UpdateSource();
+
+                if (textBox.DataContext is Ordner folder)
+                {
+                    if (DataContext is OrdnerView1VM viewModel)
+                    {
+                        _ = viewModel.SaveFolderChangesAsync(folder);
+                    }
+                }
+                Keyboard.Focus(null);
+                _lastFocusedTextBox = null;
             }
         }
     }

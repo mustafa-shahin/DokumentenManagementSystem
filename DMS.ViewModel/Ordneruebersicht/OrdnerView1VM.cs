@@ -1,6 +1,7 @@
 ﻿using DMS.Model;
 using DMS.Service;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace DMS.ViewModel.Ordneruebersicht;
 
@@ -8,6 +9,8 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
 {
     private Benutzer m_currentUser;
     private readonly OrdnerService m_ordnerService;
+    private Ordner _selectedFolder;
+
 
     public Benutzer CurrentUser
     {
@@ -17,6 +20,15 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
             if (Equals(value, m_currentUser)) return;
             m_currentUser = value;
             OnPropertyChanged();
+        }
+    }
+    public Ordner SelectedFolder
+    {
+        get { return _selectedFolder; }
+        set
+        {
+            _selectedFolder = value;
+            OnPropertyChanged(nameof(SelectedFolder));
         }
     }
 
@@ -29,6 +41,7 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
     public event EventHandler<Ordner> FolderCreated;
 
     public DelegateCommand CreateFolderCommand { get; set; }
+    public DelegateCommand SaveFolderNameCommand { get; set; }
 
     public OrdnerView1VM(OrdnerService ordnerService)
     {
