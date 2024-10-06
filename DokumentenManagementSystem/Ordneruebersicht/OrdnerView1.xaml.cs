@@ -124,5 +124,16 @@ namespace DMS.View.Ordneruebersicht
                 _lastFocusedTextBox = null;
             }
         }
+        private void FolderIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (DataContext is OrdnerView1VM viewModel && sender is Image image && image.DataContext is Ordner folder)
+                {
+                    viewModel.OpenFolderCommand.Execute(folder);
+                    e.Handled = true;
+                }
+            }
+        }
     }
 }
