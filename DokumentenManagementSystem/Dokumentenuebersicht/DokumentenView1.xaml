@@ -10,70 +10,61 @@
         <!-- Folder Name Display -->
         <TextBlock Text="{Binding FolderName}" FontSize="24" Foreground="White" HorizontalAlignment="Center" />
 
-        <!-- Button to Add File -->
-        <Button Content="Add File" Command="{Binding AddFileCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" />
+        <!-- File List with Description under File Name and Buttons aligned to the right -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,50,10,10">
+            <ItemsControl ItemsSource="{Binding FilesCollection}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Padding="10" Background="#1E2D38" CornerRadius="10" BorderThickness="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!-- Columns for File Name + Description and Actions -->
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-        <!-- ListView to Display Files with GridView Layout -->
-        <ListView ItemsSource="{Binding FilesCollection}" Margin="10,100,10,10" Background="#252525" BorderThickness="0">
-            <ListView.View>
-                <GridView>
-                    <GridView.ColumnHeaderContainerStyle>
-                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                            <!-- Set any properties you want to set -->
-                            <Setter Property="Background" Value="LightBlue" />
-                            <Setter Property="Foreground" Value="Black" />
-                            <Setter Property="FontWeight" Value="Bold" />
-                        </Style>
-                    </GridView.ColumnHeaderContainerStyle>
-                    <!-- File Name Column -->
-                    <GridViewColumn Header="File Name" Width="200">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Background="#3D3D3D" Foreground="White" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                <!-- StackPanel for File Name and Description -->
+                                <StackPanel Grid.Column="0" Orientation="Vertical">
+                                    <!-- File Name -->
+                                    <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" Text="{Binding Name}" />
 
-                    <!-- Description Column -->
-                    <GridViewColumn Header="Description" Width="300">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Description}" Background="#3D3D3D" Foreground="White" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Version Column -->
-                    <GridViewColumn Header="Version" Width="150">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Version}" Background="#3D3D3D" Foreground="White" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Visible to All Users Column -->
-                    <GridViewColumn Header="Visible to All Users" Width="150">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsVisibleAllUser}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Actions Column -->
-                    <GridViewColumn Header="Actions" Width="200">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="Save" Command="{Binding DataContext.SaveFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0"/>
-                                    <Button Content="Download" Command="{Binding DataContext.DownloadFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0"/>
+                                    <!-- Description under File Name -->
+                                    <TextBox VerticalAlignment="Bottom" 
+                                             HorizontalAlignment="Left" 
+                                             Width="300" 
+                                             FontSize="16" 
+                                             Foreground="White" 
+                                             Background="#2D3B45" 
+                                             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                             TextWrapping="Wrap" 
+                                             AcceptsReturn="True" 
+                                             BorderBrush="Gray" 
+                                             BorderThickness="1" 
+                                             MinHeight="100"
+                                             VerticalScrollBarVisibility="Auto" 
+                                             GotFocus="DescriptionTextBox_GotFocus" 
+                                             LostFocus="DescriptionTextBox_LostFocus"/>
                                 </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+
+
+                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <!-- CheckBox for visibility -->
+                                    <CheckBox HorizontalAlignment="Right" Content="Für alle sichtbar" IsChecked="{Binding IsVisibleAllUser}" Foreground="White" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <!-- Action Buttons -->
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Content="Speichern" Command="{Binding DataContext.SaveFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0" Padding="5,2" />
+                                        <Button Content="Herunterladen" Command="{Binding DataContext.DownloadFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0" Padding="5,2" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using DMS.Model;
 using DMS.Service;
-
 namespace DMS.ViewModel.Dokumentenuebersicht
 {
     public class DokumentenView1VM : ViewModelBase, IDokumentenView1VM
@@ -10,13 +9,12 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         private Ordner m_currentFolder;
         private Benutzer m_currentUser;
         private readonly DokumenteService _dokumenteService;
-
         public ObservableCollection<Dokument> FilesCollection { get; set; }
 
         public ICommand AddFileCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
         public ICommand DownloadFileCommand { get; set; }
-
+        public event Action<string> FileDownloaded;
         public string FolderName
         {
             get => m_currentFolder?.Name;
@@ -77,7 +75,8 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         {
             if (obj is Dokument file)
             {
-                DokumenteService.DownloadFile(file);
+                _dokumenteService.DownloadFile(file);
+                FileDownloaded?.Invoke(_dokumenteService.FilePath);
             }
         }
     }

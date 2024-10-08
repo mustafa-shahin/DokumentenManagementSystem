@@ -2,16 +2,16 @@
 using DMS.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Windows;
+
 
 namespace DMS.Service
 {
     public class DokumenteService
     {
         private readonly DataContext _context;
-
+        public string FilePath { get; private set; }
         public DokumenteService(DataContext context)
         {
             _context = context;
@@ -62,7 +62,7 @@ namespace DMS.Service
                 .ToListAsync();
         }
 
-        public static void DownloadFile(Dokument dokument)
+        public void DownloadFile(Dokument dokument)
         {
             var saveFileDialog = new SaveFileDialog
             {
@@ -71,7 +71,16 @@ namespace DMS.Service
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                File.WriteAllBytes(saveFileDialog.FileName, dokument.Content);
+                try
+                {
+                    File.WriteAllBytes(saveFileDialog.FileName, dokument.Content);
+
+                    FilePath = saveFileDialog.FileName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim Herunterladen der Datei: " + ex.Message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
