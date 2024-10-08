@@ -10,7 +10,6 @@
         <TextBlock Text="Download abgeschlossen. Möchten Sie die Datei oder den Ordner öffnen?" 
                    TextWrapping="Wrap" Margin="10" HorizontalAlignment="Center" FontSize="15" Foreground="White"/>
 
-        <!-- Buttons with smaller font and reduced size -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
             <Button Content="Datei öffnen" Width="140" Margin="5" FontSize="10" Click="OpenFileButton_Click"/>
             <Button Content="Ordner öffnen" Width="140" Margin="5" FontSize="10" Click="OpenFolderButton_Click" />
