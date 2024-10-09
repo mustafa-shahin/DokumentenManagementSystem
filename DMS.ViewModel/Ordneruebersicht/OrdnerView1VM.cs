@@ -39,7 +39,8 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
 
     public ObservableCollection<Ordner> OrdnerCollection { get; set; }
     public event EventHandler<Ordner> FolderCreated;
-
+    public DelegateCommand OpenFolderCommand { get; set; }
+    public event EventHandler<Ordner> FolderOpened;
     public DelegateCommand CreateFolderCommand { get; set; }
     public DelegateCommand SaveFolderNameCommand { get; set; }
 
@@ -47,7 +48,7 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
     {
         m_ordnerService = ordnerService;
         OrdnerCollection = [];
-
+        OpenFolderCommand = new DelegateCommand(OnOpenFolder);
         CreateFolderCommand = new DelegateCommand(OnCreateFolder);
         LoadFoldersAsync();
     }
@@ -74,6 +75,13 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
         if (!string.IsNullOrWhiteSpace(folder.Name))
         {
             await m_ordnerService.UpdateFolderAsync(folder);
+        }
+    }
+    private void OnOpenFolder(object o)
+    {
+        if (o is Ordner folder)
+        {
+            FolderOpened?.Invoke(this, folder);
         }
     }
 }

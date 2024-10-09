@@ -10,5 +10,7 @@ public class Dokument
     public DateTime ErstellDatum { get; set; }
     public byte[] Content { get; set; }
     public bool IsVisibleAllUser { get; set; }
-    public List<string> Searchtags { get; set; }
+    public List<string>? Searchtags { get; set; }
+    public int OrdnerId { get; set; } 
+    public Ordner Ordner { get; set; } 
 }

@@ -6,7 +6,147 @@
              xmlns:local="clr-namespace:DMS.View.Dokumentenuebersicht"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
-            
+        <!-- Define Rows in the Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="10">
+            <!-- Folder Name Display -->
+            <TextBlock Text="{Binding FolderName}" FontSize="24" Foreground="White" HorizontalAlignment="Center" />
+            <Button Content="Hochladen" Command="{Binding AddFileCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" />
+        </StackPanel>
+
+        <!-- File List with Description under File Name and Buttons -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10,0,10,10">
+            <ListView ItemsSource="{Binding FilesCollection}" SelectedItem="{Binding SelectedFile}" Background="#252525" BorderThickness="0" HorizontalAlignment="Stretch">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Padding="10" Background="#1E2D38" CornerRadius="10" BorderThickness="0" HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- StackPanel for File Name and Description -->
+                                <StackPanel Grid.Column="0" Orientation="Vertical">
+                                    <!-- File Name -->
+                                    <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" Text="{Binding Name}" />
+
+                                    <!-- Description under File Name -->
+                                    <TextBox VerticalAlignment="Bottom" 
+                                             HorizontalAlignment="Left" 
+                                             Width="300" 
+                                             FontSize="16" 
+                                             Foreground="White" 
+                                             Background="#2D3B45" 
+                                             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                             TextWrapping="Wrap" 
+                                             AcceptsReturn="True" 
+                                             BorderBrush="Gray" 
+                                             BorderThickness="1" 
+                                             MinHeight="100"
+                                             VerticalScrollBarVisibility="Auto" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <!-- CheckBox for visibility -->
+                                    <CheckBox HorizontalAlignment="Right" Content="Für alle sichtbar" IsChecked="{Binding IsVisibleAllUser}" Foreground="White" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <!-- Action Buttons -->
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Content="Speichern" Command="{Binding DataContext.SaveFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0" Padding="5,2" />
+                                        <Button Content="Herunterladen" Command="{Binding DataContext.DownloadFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0" Padding="5,2" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+
+        <!-- Floating Sidebar Layer -->
+        <Canvas x:Name="SidebarCanvas"
+                Visibility="{Binding SelectedFile, Converter={StaticResource BoolToVisibilityConverter}}"
+                Background="Transparent"
+                  IsHitTestVisible="False">
+            <!-- Sidebar for displaying detailed information about the selected file -->
+            <Border x:Name="FileInfoSidebar"
+                    Width="300"
+                    Background="#1E2D38"
+                    Canvas.Right="-400"
+                    Canvas.Top="0"
+                    Padding="10">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel VerticalAlignment="Top">
+                        <TextBlock Text="Datei Information" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" />
+
+                        <TextBlock Text="Datei Name" FontSize="20" Foreground="Gray" FontWeight="Bold" />
+                        <TextBlock Text="{Binding SelectedFile.Name}" FontSize="12" Foreground="White" TextWrapping="Wrap" />
+
+                        <TextBlock Text="Beschreibung" FontSize="20" Foreground="Gray" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding SelectedFile.Description}" FontSize="16" Foreground="White" TextWrapping="Wrap" />
+
+                        <TextBlock Text="Version" FontSize="20" Foreground="Gray" FontWeight="Bold" />
+                        <TextBlock Text="{Binding SelectedFile.Version}" FontSize="16" Foreground="White" />
+
+                        <TextBlock Text="Ersteller" FontSize="20" Foreground="Gray" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding SelectedFile.Ersteller.Name}" FontSize="16" Foreground="White" />
+
+                        <TextBlock Text="ErstellDatum" FontSize="20" Foreground="Gray" FontWeight="Bold" />
+                        <TextBlock Text="{Binding SelectedFile.ErstellDatum}" FontSize="16" Foreground="White" />
+
+                        <StackPanel>
+                            <!-- Label for "Für alle sichtbar" -->
+                            <TextBlock Text="Für alle sichtbar" FontSize="20" Foreground="Gray" FontWeight="Bold" />
+
+                            <!-- TextBlock to show 'ja' if IsVisibleAllUser is true -->
+                            <TextBlock FontSize="16" Foreground="White" Text="ja">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedFile.IsVisibleAllUser}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <!-- TextBlock to show 'nein' if IsVisibleAllUser is false -->
+                            <TextBlock FontSize="16" Foreground="White" Text="nein">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedFile.IsVisibleAllUser}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <TextBlock Text="Ordner" FontSize="20" Foreground="Gray" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding SelectedFile.Ordner.Name}" FontSize="16" Foreground="White" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Canvas>
     </Grid>
 </UserControl>
