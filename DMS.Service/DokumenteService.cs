@@ -24,29 +24,44 @@ namespace DMS.Service
                 var filePath = openFileDialog.FileName;
                 var fileContent = File.ReadAllBytes(filePath);
 
+                // Check if the current user is already tracked
+                var existingUser = _context.Benutzer.Find(currentUser.Id);
+                var existingFolder = _context.Ordner.Find(currentFolder.Id);
+
+                if (existingUser == null)
+                {
+                    // Attach the current user if it's not being tracked
+                    existingUser = currentUser;
+                    _context.Benutzer.Attach(existingUser);
+                }
+
+                if (existingFolder == null)
+                {
+                    // Attach the current folder if it's not being tracked
+                    existingFolder = currentFolder;
+                    _context.Ordner.Attach(existingFolder);
+                }
+
                 var dokument = new Dokument
                 {
                     Name = Path.GetFileName(filePath),
                     Description = "New file",
                     Version = "1.0",
-                    Ersteller = currentUser,
+                    Ersteller = existingUser,  // Set the tracked or newly attached Benutzer
                     ErstellDatum = DateTime.Now,
                     Content = fileContent,
                     IsVisibleAllUser = false,
-                    OrdnerId = currentFolder.Id
+                    OrdnerId = existingFolder.Id,
+                    Ordner = existingFolder
                 };
 
                 dokument.Searchtags ??= [];
-                // Ensure the 'Ersteller' (Benutzer) is tracked, so EF doesn't try to insert a duplicate
-                if (_context.Benutzer.Any(b => b.Id == dokument.Ersteller.Id))
-                {
-                    // Attach the existing Benutzer to the context to avoid duplication
-                    _context.Entry(dokument.Ersteller).State = EntityState.Unchanged;
-                }
+
                 _context.Dokumente.Add(dokument);
                 _context.SaveChanges();
             }
         }
+
 
         public void UpdateFile(Dokument dokument)
         {
@@ -57,12 +72,14 @@ namespace DMS.Service
         public async Task<List<Dokument>> GetFilesForFolder(int folderId, Benutzer user)
         {
             return await _context.Dokumente
-                .Where(d => d.OrdnerId == folderId && (d.IsVisibleAllUser || d.Ersteller.Id == user.Id))
-                .ToListAsync();
+        .Include(d => d.Ersteller).Include(d => d.Ordner)
+        .Where(d => d.OrdnerId == folderId && (d.IsVisibleAllUser || d.Ersteller.Id == user.Id))
+        .ToListAsync();
         }
 
-        public void DownloadFile(Dokument dokument)
+        public void DownloadFile(Dokument dokument, out bool openDialog)
         {
+            var dialog = false;
             var saveFileDialog = new SaveFileDialog
             {
                 FileName = dokument.Name
@@ -70,6 +87,7 @@ namespace DMS.Service
 
             if (saveFileDialog.ShowDialog() == true)
             {
+                dialog = true;
                 try
                 {
                     File.WriteAllBytes(saveFileDialog.FileName, dokument.Content);
@@ -81,6 +99,7 @@ namespace DMS.Service
                     MessageBox.Show("Fehler beim Herunterladen der Datei: " + ex.Message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            openDialog = dialog;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 using DMS.Model;
 using DMS.Service;
@@ -15,6 +16,16 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         public ICommand SaveFileCommand { get; set; }
         public ICommand DownloadFileCommand { get; set; }
         public event Action<string> FileDownloaded;
+        private Dokument _selectedFile = new();
+        public Dokument SelectedFile
+        {
+            get => _selectedFile;
+            set
+            {
+                _selectedFile = value;
+                OnPropertyChanged();
+            }
+        }
         public string FolderName
         {
             get => m_currentFolder?.Name;
@@ -39,6 +50,8 @@ namespace DMS.ViewModel.Dokumentenuebersicht
 
         public void Init(Ordner folder, Benutzer currentUser)
         {
+            if(FilesCollection.Any())
+                FilesCollection.Clear();
             m_currentFolder = folder;
             m_currentUser = currentUser;
             LoadFiles();
@@ -47,6 +60,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         private async void LoadFiles()
         {
             var files = await _dokumenteService.GetFilesForFolder(m_currentFolder.Id, m_currentUser);
+
             foreach (var file in files)
             {
                 FilesCollection.Add(file);
@@ -61,6 +75,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             // Refresh the FilesCollection after adding the file
             FilesCollection.Clear();
             LoadFiles();
+            
         }
 
         private void SaveFile(object obj)
@@ -75,8 +90,9 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         {
             if (obj is Dokument file)
             {
-                _dokumenteService.DownloadFile(file);
-                FileDownloaded?.Invoke(_dokumenteService.FilePath);
+                _dokumenteService.DownloadFile(file, out bool openDialog);
+                if(openDialog)
+                    FileDownloaded?.Invoke(_dokumenteService.FilePath);
             }
         }
     }

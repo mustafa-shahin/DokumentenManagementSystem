@@ -2,7 +2,9 @@
 using DokumentenManagementSystem.Dokumentenuebersicht;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace DMS.View.Dokumentenuebersicht
 {
@@ -12,7 +14,7 @@ namespace DMS.View.Dokumentenuebersicht
     public partial class DokumentenView1 : UserControl
     {
         private DokumentenView1VM _viewModel;
-
+        private bool _isSidebarOpen = false;
         public DokumentenView1()
         {
             InitializeComponent();
@@ -25,8 +27,21 @@ namespace DMS.View.Dokumentenuebersicht
 
             if (_viewModel != null)
             {
-                // Subscribe to the FileDownloaded event
                 _viewModel.FileDownloaded += OnFileDownloaded;
+                _viewModel.PropertyChanged += (s, args) =>
+                {
+                    if (args.PropertyName == nameof(DokumentenView1VM.SelectedFile))
+                    {
+                        if (_viewModel.SelectedFile != null)
+                        {
+                            OpenSidebar();
+                        }
+                        else
+                        {
+                            CloseSidebar();
+                        }
+                    }
+                };
             }
         }
 
@@ -52,6 +67,58 @@ namespace DMS.View.Dokumentenuebersicht
         {
             var dialog = new DownloadCompleteDialog(filePath);
             dialog.ShowDialog();
+        }
+        private void OpenSidebar()
+        {
+            _isSidebarOpen = true;
+            SidebarCanvas.Visibility = Visibility.Visible;
+            var storyboard = new Storyboard();
+
+            var slideIn = new DoubleAnimation
+            {
+                From = -300,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.4),
+                EasingFunction = new SineEase()
+            };
+
+            Storyboard.SetTarget(slideIn, FileInfoSidebar);
+            Storyboard.SetTargetProperty(slideIn, new PropertyPath("(Canvas.Right)"));
+            storyboard.Children.Add(slideIn);
+            storyboard.Begin();
+        }
+
+        private void CloseSidebar()
+        {
+            if (_isSidebarOpen)
+            {
+                _isSidebarOpen = false;
+                var storyboard = new Storyboard();
+
+                var slideOut = new DoubleAnimation
+                {
+                    From = 0,
+                    To = -300,
+                    Duration = TimeSpan.FromSeconds(0.4),
+                    EasingFunction = new SineEase()
+                };
+
+                Storyboard.SetTarget(slideOut, FileInfoSidebar);
+                Storyboard.SetTargetProperty(slideOut, new PropertyPath("(Canvas.Right)"));
+                storyboard.Children.Add(slideOut);
+
+                slideOut.Completed += (s, e) => SidebarCanvas.Visibility = Visibility.Collapsed;
+
+                storyboard.Begin();
+            }
+        }
+
+        private void CloseSidebar(object sender, MouseButtonEventArgs e)
+        {
+            if (_isSidebarOpen)
+            {
+                CloseSidebar();
+            }
         }
     }
 }
