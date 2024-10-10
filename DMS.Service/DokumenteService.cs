@@ -65,8 +65,12 @@ namespace DMS.Service
 
         public void UpdateFile(Dokument dokument)
         {
-            _context.Dokumente.Update(dokument);
-            _context.SaveChanges();
+            if (Haschanges(dokument))
+            {
+                _context.Dokumente.Update(dokument);
+                _context.SaveChanges();
+            }
+
         }
 
         public async Task<List<Dokument>> GetFilesForFolder(int folderId, Benutzer user)
@@ -100,6 +104,22 @@ namespace DMS.Service
                 }
             }
             openDialog = dialog;
+        }
+        private bool Haschanges(Dokument updatedDokument)
+        {
+            var existingDokument = _context.Dokumente.AsNoTracking().FirstOrDefault(d => d.Id == updatedDokument.Id);
+            if (existingDokument != null)
+            {
+                bool hasChanges = existingDokument.Name != updatedDokument.Name ||
+                                  existingDokument.Description != updatedDokument.Description ||
+                                  existingDokument.Version != updatedDokument.Version ||
+                                  !existingDokument.Content.SequenceEqual(updatedDokument.Content) ||
+                                  existingDokument.IsVisibleAllUser != updatedDokument.IsVisibleAllUser;
+                if (hasChanges)
+                    return true; 
+            }
+
+            return false;
         }
     }
 }
