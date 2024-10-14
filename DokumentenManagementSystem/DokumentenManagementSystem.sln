@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMS.DataAccess", "..\DMS.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel.Interface", "..\ViewModel.Interface\ViewModel.Interface.csproj", "{EF410472-0C8D-4743-AFEC-AF485D33FE27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMS.Test", "..\DMS.Test\DMS.Test.csproj", "{A4ACF054-4930-4AB1-AD08-E5264D36CCE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMS.Test", "..\DMS.Test\DMS.Test.csproj", "{A4ACF054-4930-4AB1-AD08-E5264D36CCE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
