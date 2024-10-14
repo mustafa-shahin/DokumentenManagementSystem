@@ -1,9 +1,7 @@
 ﻿using DMS.DataAccess;
 using DMS.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
+
 
 namespace DMS.Service
 {
