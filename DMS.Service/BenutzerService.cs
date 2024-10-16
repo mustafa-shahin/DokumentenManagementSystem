@@ -1,15 +1,14 @@
 ﻿using DMS.DataAccess;
 using DMS.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace DMS.Service
 {
     public class BenutzerService
     {
         private readonly DataContext _context;
+
         public BenutzerService(DataContext context)
         {
             _context = context;
@@ -44,7 +43,6 @@ namespace DMS.Service
                 return false;
             }
         }
-
 
         public async Task<bool> UserExists(string username)
         {
@@ -81,6 +79,18 @@ namespace DMS.Service
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
+        }
+
+        public async Task<bool> ChangePassword(string username, string newPassword)
+        {
+            var user = await _context.Benutzer.FirstOrDefaultAsync(b => b.Name == username);
+            if (user != null)
+            {
+                user.Passwort = newPassword;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

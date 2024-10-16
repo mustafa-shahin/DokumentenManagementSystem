@@ -3,6 +3,7 @@ using DMS.Service;
 using ViewModel.Interface.Login;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace DMS.ViewModel.Login
 {
@@ -17,6 +18,7 @@ namespace DMS.ViewModel.Login
         private string m_signupPasswortConfirm;
         private string m_loginErrorMessage;
         private string m_signupErrorMessage;
+
 
         public string Benutzer
         {
@@ -92,17 +94,18 @@ namespace DMS.ViewModel.Login
                 OnPropertyChanged();
             }
         }
-
+        public ICommand ForgotPasswordCommand { get; set; }
         public DelegateCommand LoginCommand { get; set; }
         public DelegateCommand SignUpCommand { get; set; }
 
         public event EventHandler<Benutzer> LoginEvent;
-
+        public event EventHandler ForgotPasswordEvent;
         public LoginVM(BenutzerService benutzerService)
         {
             m_benutzerService = benutzerService;
             LoginCommand = new DelegateCommand(ExecuteLogin);
             SignUpCommand = new DelegateCommand(ExecuteSignup);
+            ForgotPasswordCommand = new DelegateCommand(ExecuteForgotPassword);
             Init();
         }
 
@@ -116,7 +119,10 @@ namespace DMS.ViewModel.Login
             LoginErrorMessage = string.Empty;
             SignupErrorMessage = string.Empty;
         }
-
+        private void ExecuteForgotPassword(object parameter)
+        {
+            ForgotPasswordEvent?.Invoke(this, EventArgs.Empty);
+        }
         private bool CanExecuteLogin()
         {
             return !string.IsNullOrEmpty(Benutzer) && !string.IsNullOrEmpty(Passwort);
