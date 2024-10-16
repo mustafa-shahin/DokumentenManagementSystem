@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DMS.ViewModel;
+using DMS.ViewModel.SucheViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,23 @@ namespace DokumentenManagementSystem
         public MainFrame()
         {
             InitializeComponent();
+        }
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if(sender is TextBox)
+                {
+                    (DataContext as MainFrameVM).SearchQuery = (sender as TextBox).Text;
+                }
+                if (DataContext is MainFrameVM viewModel)
+                {
+                    if (viewModel.SearchCommand.CanExecute(null))
+                    {
+                        viewModel.SearchCommand.Execute(null);
+                    }
+                }
+            }
         }
     }
 }

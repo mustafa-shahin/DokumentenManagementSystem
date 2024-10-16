@@ -121,5 +121,12 @@ namespace DMS.Service
 
             return false;
         }
+        public async Task<List<Dokument>> GetAllDocumentsAsync()
+        {
+            return await _context.Dokumente
+             .Include(d => d.Ersteller)
+             .Include(d => d.Ordner)
+             .ToListAsync();
+        }
     }
 }

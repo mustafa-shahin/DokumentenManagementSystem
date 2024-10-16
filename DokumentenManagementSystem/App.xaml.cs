@@ -13,6 +13,8 @@ using ViewModel.Interface;
 using ViewModel.Interface.Login;
 using DMS.ViewModel.ForgotPasswordVM;
 using ViewModel.Interface.ForgotPassword;
+using ViewModel.Interface.Suche;
+using DMS.ViewModel.SucheViewModel;
 
 namespace DokumentenManagementSystem
 {
@@ -35,7 +37,8 @@ namespace DokumentenManagementSystem
             m_container.RegisterType<IOrdnerFrameVM, OrdnerFrameVM>();
             m_container.RegisterType<IOrdnerView1VM, OrdnerView1VM>();
             m_container.RegisterType<ILoginVM, LoginVM>();
-            m_container.RegisterType<IForgotPasswordVM ,ForgotPasswordVM>();
+            m_container.RegisterType<IForgotPasswordVM, ForgotPasswordVM>();
+            m_container.RegisterType<ISucheViewModel, SucheViewModel>();
             m_container.RegisterType<BenutzerService>();
             m_container.RegisterType<DokumenteService>();
             m_container.RegisterType<OrdnerService>();

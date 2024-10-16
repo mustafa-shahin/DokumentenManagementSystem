@@ -14,7 +14,9 @@
     xmlns:ordneruebersicht1="clr-namespace:DMS.View.Ordneruebersicht"
     xmlns:viewModel="clr-namespace:DMS.ViewModel;assembly=DMS.ViewModel"
     xmlns:forgotPasswordVM="clr-namespace:DMS.ViewModel.ForgotPasswordVM;assembly=DMS.ViewModel"
-xmlns:forgotPasswordView="clr-namespace:DokumentenManagementSystem">
+    xmlns:forgotPasswordView="clr-namespace:DokumentenManagementSystem"
+    xmlns:sucheView="clr-namespace:DokumentenManagementSystem.Suche"
+   xmlns:sucheVM="clr-namespace:DMS.ViewModel.SucheViewModel;assembly=DMS.ViewModel">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -54,6 +56,9 @@ xmlns:forgotPasswordView="clr-namespace:DokumentenManagementSystem">
             </DataTemplate>
             <DataTemplate DataType="{x:Type forgotPasswordVM:ForgotPasswordVM}">
                 <forgotPasswordView:ForgotPasswordView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type sucheVM:SucheViewModel}">
+                <sucheView:SucheView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
