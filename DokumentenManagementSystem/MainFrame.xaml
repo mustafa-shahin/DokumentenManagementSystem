@@ -21,8 +21,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <WrapPanel Grid.Column="0"
@@ -52,7 +51,8 @@
                 Height="75"
                 Margin="10"
                 Command="{Binding Path=LogoutCommand}"
-                Content="Logout"/>
+                Content="Logout"
+                HorizontalAlignment="Right"/>
         </Grid>
 
         <Border

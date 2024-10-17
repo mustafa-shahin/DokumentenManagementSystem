@@ -16,28 +16,36 @@ namespace DMS.Service
             _context = context;
         }
 
-        public void AddFile(Ordner currentFolder, Benutzer currentUser)
+        public virtual string? GetFilePath()
         {
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                var filePath = openFileDialog.FileName;
+                return openFileDialog.FileName;
+            }
+            return null;
+        }
+
+        public void AddFile(Ordner currentFolder, Benutzer currentUser)
+        {
+            string filePath = GetFilePath();
+
+            if (filePath != null)
+            {
                 var fileContent = File.ReadAllBytes(filePath);
 
-                // Check if the current user is already tracked
+                // The rest of your logic remains the same
                 var existingUser = _context.Benutzer.Find(currentUser.Id);
                 var existingFolder = _context.Ordner.Find(currentFolder.Id);
 
                 if (existingUser == null)
                 {
-                    // Attach the current user if it's not being tracked
                     existingUser = currentUser;
                     _context.Benutzer.Attach(existingUser);
                 }
 
                 if (existingFolder == null)
                 {
-                    // Attach the current folder if it's not being tracked
                     existingFolder = currentFolder;
                     _context.Ordner.Attach(existingFolder);
                 }
@@ -47,7 +55,7 @@ namespace DMS.Service
                     Name = Path.GetFileName(filePath),
                     Description = "New file",
                     Version = "1.0",
-                    Ersteller = existingUser,  // Set the tracked or newly attached Benutzer
+                    Ersteller = existingUser,
                     ErstellDatum = DateTime.Now,
                     Content = fileContent,
                     IsVisibleAllUser = false,
