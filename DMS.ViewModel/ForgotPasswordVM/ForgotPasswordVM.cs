@@ -11,7 +11,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
         private string _verificationCode;
         private string _newPassword;
         private string _confirmPassword;
-        private string _errorMessage;
+        private string _message;
         private bool _isCodeSent;
         private bool _isCodeVerified;
         private readonly EmailService _emailService;
@@ -61,15 +61,15 @@ namespace DMS.ViewModel.ForgotPasswordVM
             set => SetField(ref _isCodeVerified, value);
         }
 
-        public string ErrorMessage
+        public string Message
         {
-            get => _errorMessage;
-            set => SetField(ref _errorMessage, value);
+            get => _message;
+            set => SetField(ref _message, value);
         }
 
-        public ICommand SendCodeCommand { get; }
-        public ICommand VerifyCodeCommand { get; }
-        public ICommand ChangePasswordCommand { get; }
+        public DelegateCommand SendCodeCommand { get; }
+        public DelegateCommand VerifyCodeCommand { get; }
+        public DelegateCommand ChangePasswordCommand { get; }
 
         public ForgotPasswordVM(BenutzerService benutzerService, EmailService emailService)
         {
@@ -89,24 +89,20 @@ namespace DMS.ViewModel.ForgotPasswordVM
             if (success)
             {
                 IsCodeSent = true;
-                ErrorMessage = "Bestätigungscode wurde gesendet.";
+                Message = "Bestätigungscode wurde gesendet.";
             }
             else
-            {
-                ErrorMessage = "Benutzername oder E-Mail ist nicht korrekt.";
-            }
+                Message = "Benutzername oder E-Mail ist nicht korrekt.";
         }
         private void OnVerifyCode(object obj)
         {
             if (_emailService.VerifyCode(Benutzername, VerificationCode))
             {
                 IsCodeVerified = true;
-                ErrorMessage = "";
+                Message = "Bestätigt";
             }
             else
-            {
-                ErrorMessage = "Ungültiger Code.";
-            }
+                Message = "Ungültiger Code.";
         }
 
         private async void OnChangePassword(object obj)
@@ -116,18 +112,15 @@ namespace DMS.ViewModel.ForgotPasswordVM
                 bool success = await _benutzerService.ChangePassword(Benutzername, NewPassword);
                 if (success)
                 {
-                    ErrorMessage = "Passwort erfolgreich geändert.";
+                    Message = "Passwort erfolgreich geändert.";
                     PasswordChangedEvent?.Invoke(this, EventArgs.Empty);
                 }
+
                 else
-                {
-                    ErrorMessage = "Fehler beim Ändern des Passworts.";
-                }
+                    Message = "Fehler beim Ändern des Passworts.";
             }
             else
-            {
-                ErrorMessage = "Passwörter stimmen nicht überein.";
-            }
+                Message = "Passwörter stimmen nicht überein.";
         }
     }
 }
