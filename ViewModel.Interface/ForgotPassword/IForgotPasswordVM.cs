@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ViewModel.Interface.ForgotPassword
 {
-    public interface IForgotPasswordVM  : IViewModelBase
+    public interface IForgotPasswordVM : IViewModelBase
     {
-        event EventHandler PasswordChangedEvent;
         void Init();
     }
 }
