@@ -8,7 +8,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-    <Grid>
+    <Grid >
         <!-- Define Rows in the Grid -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,7 +17,8 @@
 
         <StackPanel Grid.Row="0"
                     HorizontalAlignment="Center"
-                    Margin="10">
+                    Margin="10"
+                    MouseLeftButtonDown="StackPanel_MouseLeftButtonDown_1" x:Name="upload">
             <!-- Folder Name Display -->
             <TextBlock Text="{Binding FolderName}"
                        FontSize="24"
@@ -25,19 +26,20 @@
                        HorizontalAlignment="Center"/>
             <Button Background="Transparent"
                     Width="70"
+                    Height="70"
                     Command="{Binding AddFileCommand}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Margin="0,5,0,0"
                     Cursor="Hand">
                 <Image Source="pack://application:,,,/Assets/upload-icon.png"
-                                                   Width="65"
-                                                   Height="65"/>
+                                                   Width="70"
+                                                   Height="70"/>
             </Button>
             <TextBlock Text="Hocladen"
                        FontSize="15"
                        Foreground="White"
-                       HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="upload"/>
+                       HorizontalAlignment="Center" Cursor="Hand"/>
         </StackPanel>
 
         <!-- File List with Description under File Name and Buttons -->
@@ -74,7 +76,7 @@
                                 <StackPanel Grid.Column="0"
                                             Orientation="Vertical">
                                     <!-- File Name and Icon -->
-                                    <StackPanel Orientation="Horizontal"
+                                    <StackPanel Orientation="Horizontal" Cursor="Hand" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown"
                                                 Margin="5">
                                         <Image Source="pack://application:,,,/Assets/file-icon.png"
                                                Width="40"
@@ -158,8 +160,8 @@
         <!-- Floating Sidebar Layer -->
         <Canvas x:Name="SidebarCanvas"
                 Visibility="{Binding SelectedFile, Converter={StaticResource BoolToVisibilityConverter}}"
-                Background="Transparent"
-                IsHitTestVisible="False">
+                 Background="#00FFFFFF"
+                 Panel.ZIndex="10">
             <!-- Sidebar for displaying detailed information about the selected file -->
             <Border x:Name="FileInfoSidebar"
                     Width="300"
@@ -169,11 +171,24 @@
                     Padding="10">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel VerticalAlignment="Top">
-                        <TextBlock Text="Datei Information"
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Datei Information"
                                    FontSize="18"
                                    FontWeight="Bold"
                                    Foreground="White"
-                                   HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            <Button Click="Button_Click"
+                                    HorizontalAlignment="Right"
+                                Background="Transparent"
+                                Cursor="Hand"
+                                 Margin="2">
+                                <Image Source="pack://application:,,,/Assets/back-icon.png"
+                               Width="30"
+                               Height="30"/>
+                            </Button>
+                        </StackPanel>
+
 
                         <TextBlock Text="Datei Name"
                                    FontSize="20"

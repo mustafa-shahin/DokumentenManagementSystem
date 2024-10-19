@@ -56,5 +56,31 @@ namespace DokumentenManagementSystem
                 }
             }
         }
+
+
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is MainFrameVM viewModel)
+            {
+                if (sender is StackPanel stackPanel)
+                {
+                    if (stackPanel.Name == "users")
+                    {
+                        if (viewModel.NutzerCommand.CanExecute(null))
+                            viewModel.NutzerCommand.Execute(null);
+                    }
+                    else if (stackPanel.Name == "folders")
+                    {
+                        if (viewModel.OrdnerCommand.CanExecute(null))
+                            viewModel.OrdnerCommand.Execute(null);
+                    }
+                    else if (stackPanel.Name == "logout")
+                    {
+                        if (viewModel.LogoutCommand.CanExecute(null))
+                            viewModel.LogoutCommand.Execute(null);
+                    }
+                }
+            }
+        }
     }
 }

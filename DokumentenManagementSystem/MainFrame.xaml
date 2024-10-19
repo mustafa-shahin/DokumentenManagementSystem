@@ -27,7 +27,7 @@
             <WrapPanel Grid.Column="0"
                        Margin="10"
                        Orientation="Horizontal">
-                <StackPanel>
+                <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="folders">
                     <Button Background="Transparent"
                             Margin="2"
                             Command="{Binding Path=OrdnerCommand}"
@@ -41,10 +41,10 @@
                     <TextBlock Text="Ordner"
                                HorizontalAlignment="Center"
                                FontSize="10"
-                               Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="folders">
+                               Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown">
                     </TextBlock>
                 </StackPanel>
-                <StackPanel  Margin="15,0,0,0">
+                <StackPanel  Margin="15,0,0,0" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="users">
 
                     <Button
                         Background="Transparent"
@@ -60,7 +60,7 @@
                     <TextBlock Text="Nutzer"
                                HorizontalAlignment="Center"
                                FontSize="10"
-                               Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="users" >
+                               Foreground="White" Cursor="Hand" >
                     </TextBlock>
                 </StackPanel>
             </WrapPanel>
@@ -93,7 +93,8 @@
             <StackPanel Grid.Column="3"
                         Margin="10"
                         HorizontalAlignment="Right"
-                        Orientation="Vertical">
+                        Orientation="Vertical"
+                        MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="logout">
                 <Button
                     Command="{Binding Path=LogoutCommand}"
                     Background="Transparent"
@@ -106,7 +107,7 @@
                 <TextBlock Text="Logout"
                            HorizontalAlignment="Center"
                            FontSize="10"
-                           Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="logout">
+                           Foreground="White" Cursor="Hand">
                 </TextBlock>
             </StackPanel>
         </Grid>

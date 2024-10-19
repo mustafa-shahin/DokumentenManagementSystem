@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Assets\admin-icon.png" />
+    <None Remove="Assets\back-icon.png" />
     <None Remove="Assets\download-icon.png" />
     <None Remove="Assets\file-icon.png" />
     <None Remove="Assets\folder-icon.png" />
@@ -43,6 +44,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\admin-icon.png" />
+    <Resource Include="Assets\back-icon.png" />
     <Resource Include="Assets\download-icon.png" />
     <Resource Include="Assets\file-icon.png" />
     <Resource Include="Assets\folder-icon.png" />

@@ -1,4 +1,5 @@
-﻿using DMS.ViewModel.Dokumentenuebersicht;
+﻿using DMS.ViewModel;
+using DMS.ViewModel.Dokumentenuebersicht;
 using DokumentenManagementSystem.Dokumentenuebersicht;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,20 +29,6 @@ namespace DMS.View.Dokumentenuebersicht
             if (_viewModel != null)
             {
                 _viewModel.FileDownloaded += OnFileDownloaded;
-                _viewModel.PropertyChanged += (s, args) =>
-                {
-                    if (args.PropertyName == nameof(DokumentenView1VM.SelectedFile))
-                    {
-                        if (_viewModel.SelectedFile != null)
-                        {
-                            OpenSidebar();
-                        }
-                        else
-                        {
-                            CloseSidebar();
-                        }
-                    }
-                };
             }
         }
 
@@ -70,6 +57,7 @@ namespace DMS.View.Dokumentenuebersicht
         }
         private void OpenSidebar()
         {
+            SidebarCanvas.IsHitTestVisible = true;
             _isSidebarOpen = true;
             SidebarCanvas.Visibility = Visibility.Visible;
             var storyboard = new Storyboard();
@@ -113,11 +101,31 @@ namespace DMS.View.Dokumentenuebersicht
             }
         }
 
-        private void CloseSidebar(object sender, MouseButtonEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (_isSidebarOpen)
-            {
                 CloseSidebar();
+        }
+
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            OpenSidebar();
+        }
+
+        private void StackPanel_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is DokumentenView1VM viewModel)
+            {
+                if (sender is StackPanel stackPanel)
+                {
+                    if (stackPanel.Name == "upload")
+                    {
+                        if (viewModel.AddFileCommand.CanExecute(null))
+                            viewModel.AddFileCommand.Execute(null);
+
+
+                    }
+                }
             }
         }
     }
