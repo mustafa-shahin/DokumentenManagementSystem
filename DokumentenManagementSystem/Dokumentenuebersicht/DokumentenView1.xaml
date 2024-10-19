@@ -38,12 +38,16 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- StackPanel for File Name and Description -->
+                                <!-- StackPanel for File Name, Description and Icon -->
                                 <StackPanel Grid.Column="0" Orientation="Vertical">
-                                    <!-- File Name -->
-                                    <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" Text="{Binding Name}" />
+                                    <!-- File Name and Icon -->
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <Image Source="pack://application:,,,/Assets/file-icon.png" Width="32" Height="32"  Grid.Column="0" />
+                                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Margin="10,4,0,0" />
+                                    </StackPanel>
+                                   
 
-                                    <!-- Description under File Name -->
+                                    <!-- Description -->
                                     <TextBox VerticalAlignment="Bottom" 
                                              HorizontalAlignment="Left" 
                                              Width="300" 
