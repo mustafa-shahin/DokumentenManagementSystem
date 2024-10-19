@@ -16,25 +16,22 @@ namespace DMS.Service
             _context = context;
         }
 
-        public virtual string? GetFilePath()
+        public string GetFilePath()
         {
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
-            {
                 return openFileDialog.FileName;
-            }
-            return null;
+            else
+                return string.Empty;
         }
 
         public void AddFile(Ordner currentFolder, Benutzer currentUser)
         {
             string filePath = GetFilePath();
 
-            if (filePath != null)
+            if (!string.IsNullOrEmpty(filePath))
             {
                 var fileContent = File.ReadAllBytes(filePath);
-
-                // The rest of your logic remains the same
                 var existingUser = _context.Benutzer.Find(currentUser.Id);
                 var existingFolder = _context.Ordner.Find(currentFolder.Id);
 
