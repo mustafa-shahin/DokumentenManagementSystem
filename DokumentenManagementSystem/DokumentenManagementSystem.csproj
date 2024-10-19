@@ -11,8 +11,13 @@
 
   <ItemGroup>
     <None Remove="Assets\admin-icon.png" />
+    <None Remove="Assets\download-icon.png" />
     <None Remove="Assets\file-icon.png" />
     <None Remove="Assets\folder-icon.png" />
+    <None Remove="Assets\logout-icon.png" />
+    <None Remove="Assets\save-icon.png" />
+    <None Remove="Assets\search-icon.png" />
+    <None Remove="Assets\upload-icon.png" />
     <None Remove="Assets\user-icon.png" />
   </ItemGroup>
 
@@ -38,8 +43,13 @@
 
   <ItemGroup>
     <Resource Include="Assets\admin-icon.png" />
+    <Resource Include="Assets\download-icon.png" />
     <Resource Include="Assets\file-icon.png" />
     <Resource Include="Assets\folder-icon.png" />
+    <Resource Include="Assets\logout-icon.png" />
+    <Resource Include="Assets\save-icon.png" />
+    <Resource Include="Assets\search-icon.png" />
+    <Resource Include="Assets\upload-icon.png" />
     <Resource Include="Assets\user-icon.png" />
   </ItemGroup>
 

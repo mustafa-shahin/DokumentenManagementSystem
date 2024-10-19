@@ -25,34 +25,90 @@
             </Grid.ColumnDefinitions>
 
             <WrapPanel Grid.Column="0"
-                       Margin="10">
-                <Button
-                    Width="150"
-                    Height="75"
-                    Margin="2"
-                    Command="{Binding Path=OrdnerCommand}"
-                    Content="Ordner"/>
-                <Button
-                    Width="150"
-                    Height="75"
-                    Margin="2"
-                    Command="{Binding Path=NutzerCommand}"
-                    Content="Nutzer"
-                    Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                       Margin="10"
+                       Orientation="Horizontal">
+                <StackPanel>
+                    <Button Background="Transparent"
+                            Margin="2"
+                            Command="{Binding Path=OrdnerCommand}"
+                            Cursor="Hand"
+                            Width="50">
+                        <Image Source="pack://application:,,,/Assets/folder-icon.png"
+                               Width="50"
+                               Height="50"/>
+                    </Button>
+
+                    <TextBlock Text="Ordner"
+                               HorizontalAlignment="Center"
+                               FontSize="10"
+                               Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="folders">
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel  Margin="15,0,0,0">
+
+                    <Button
+                        Background="Transparent"
+                        Margin="2"
+                        Cursor="Hand"
+                        Command="{Binding Path=NutzerCommand}"
+                        Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Width="50">
+                        <Image Source="pack://application:,,,/Assets/user-icon.png"
+                               Width="50"
+                               Height="50"/>
+                    </Button>
+                    <TextBlock Text="Nutzer"
+                               HorizontalAlignment="Center"
+                               FontSize="10"
+                               Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="users" >
+                    </TextBlock>
+                </StackPanel>
             </WrapPanel>
 
-            <TextBox Grid.Column="1" Width="150" Margin="2" Text="{Binding Path=SearchQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" KeyDown="SearchTextBox_KeyDown"/>
+            <WrapPanel Grid.Column="1"
+                       Orientation="Horizontal"
+                       VerticalAlignment="Center">
+                <Button Grid.Column="2"
+                        Background="Transparent"
+                        Margin="2"
+                        Command="{Binding Path=SearchCommand}"
+                        Cursor="Hand"
+                        Width="50">
+                    <Image Source="pack://application:,,,/Assets/search-icon.png"
+                           Width="40"
+                           Height="40"/>
+                </Button>
+                <TextBox
+                    Width="150"
+                    Margin="2"
+                    Text="{Binding Path=SearchQuery}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    KeyDown="SearchTextBox_KeyDown"/>
 
-            <Button Grid.Column="2" Width="100" Height="30" Margin="2" Command="{Binding Path=SearchCommand}" Content="Suche"/>
+            </WrapPanel>
 
-            <Button
-                Grid.Column="3"
-                Width="150"
-                Height="75"
-                Margin="10"
-                Command="{Binding Path=LogoutCommand}"
-                Content="Logout"
-                HorizontalAlignment="Right"/>
+
+
+            <StackPanel Grid.Column="3"
+                        Margin="10"
+                        HorizontalAlignment="Right"
+                        Orientation="Vertical">
+                <Button
+                    Command="{Binding Path=LogoutCommand}"
+                    Background="Transparent"
+                    HorizontalAlignment="Right"
+                    Cursor="Hand">
+                    <Image Source="pack://application:,,,/Assets/logout-icon.png"
+                           Width="50"
+                           Height="50"/>
+                </Button>
+                <TextBlock Text="Logout"
+                           HorizontalAlignment="Center"
+                           FontSize="10"
+                           Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="logout">
+                </TextBlock>
+            </StackPanel>
         </Grid>
 
         <Border
@@ -61,7 +117,7 @@
             Background=" #252525"
             CornerRadius="10">
             <ContentControl Margin="10"
-            Content="{Binding Path=CurrentView}"/>
+                            Content="{Binding Path=CurrentView}"/>
         </Border>
     </Grid>
 </UserControl>

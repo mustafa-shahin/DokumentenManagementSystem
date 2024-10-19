@@ -36,7 +36,7 @@
                                 <Image Source="pack://application:,,,/Assets/folder-icon.png"
                                Width="50"
                                Height="50"
-                               MouseLeftButtonDown="FolderIcon_MouseLeftButtonDown"/>
+                               MouseLeftButtonDown="FolderIcon_MouseLeftButtonDown" Cursor="Hand"/>
 
                                 <TextBox
                             x:Name="FolderNameTextBox"

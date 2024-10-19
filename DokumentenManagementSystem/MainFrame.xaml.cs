@@ -19,13 +19,39 @@ namespace DokumentenManagementSystem
             {
                 if(sender is TextBox)
                 {
-                    (DataContext as MainFrameVM).SearchQuery = (sender as TextBox).Text;
+                    if(!string.IsNullOrEmpty((DataContext as MainFrameVM)?.SearchQuery))
+                        (DataContext as MainFrameVM).SearchQuery = (sender as TextBox).Text;
                 }
                 if (DataContext is MainFrameVM viewModel)
                 {
                     if (viewModel.SearchCommand.CanExecute(null))
                     {
                         viewModel.SearchCommand.Execute(null);
+                    }
+                }
+            }
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is MainFrameVM viewModel)
+            {
+                if (sender is TextBlock textBlock)
+                {
+                    if (textBlock.Name == "users")
+                    {
+                        if (viewModel.NutzerCommand.CanExecute(null))
+                            viewModel.NutzerCommand.Execute(null);
+                    }
+                    else if (textBlock.Name == "folders")
+                    {
+                        if (viewModel.OrdnerCommand.CanExecute(null))
+                            viewModel.OrdnerCommand.Execute(null);
+                    }
+                    else if (textBlock.Name == "logout")
+                    {
+                        if (viewModel.LogoutCommand.CanExecute(null))
+                            viewModel.LogoutCommand.Execute(null);
                     }
                 }
             }
