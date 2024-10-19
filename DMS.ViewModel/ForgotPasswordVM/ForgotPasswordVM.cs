@@ -85,11 +85,14 @@ namespace DMS.ViewModel.ForgotPasswordVM
 
         private async void OnSendCode(object obj)
         {
-            bool success = await _emailService.SendVerificationCode(Benutzername, Email);
-            if (success)
+            if (await _benutzerService.UserExists(Benutzername))
             {
-                IsCodeSent = true;
-                Message = "Bestätigungscode wurde gesendet.";
+                bool success = await _emailService.SendVerificationCode(Benutzername, Email);
+                if (success)
+                {
+                    IsCodeSent = true;
+                    Message = "Bestätigungscode wurde gesendet.";
+                }
             }
             else
                 Message = "Benutzername oder E-Mail ist nicht korrekt.";

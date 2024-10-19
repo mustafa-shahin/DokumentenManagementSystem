@@ -19,10 +19,7 @@ namespace DMS.Service
             try
             {
                 if (await _context.Benutzer.AnyAsync(b => b.Name == username))
-                {
-                    Console.WriteLine("User already exists.");
                     return false;
-                }
 
                 var newUser = new Benutzer
                 {
@@ -37,9 +34,8 @@ namespace DMS.Service
 
                 return changes > 0;
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
                 return false;
             }
         }
@@ -72,25 +68,25 @@ namespace DMS.Service
                     entity.IsAdmin = benutzer.IsAdmin;
                     entity.IsActive = benutzer.IsActive;
 
-                    await _context.SaveChangesAsync();
+                    _ = await _context.SaveChangesAsync();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
 
         public async Task<bool> ChangePassword(string username, string newPassword)
         {
             var user = await _context.Benutzer.FirstOrDefaultAsync(b => b.Name == username);
-            if (user != null)
-            {
+            if (user == null)
+                return false;
+
                 user.Passwort = newPassword;
                 await _context.SaveChangesAsync();
                 return true;
-            }
-            return false;
+            
+           
         }
     }
 }
