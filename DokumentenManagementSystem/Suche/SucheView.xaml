@@ -7,13 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListView ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedItem}" MouseDoubleClick="OnResultDoubleClick" Background="#252525">
+        <ListView ItemsSource="{Binding SearchResults}" 
+                  SelectedItem="{Binding SelectedItem}" 
+                  MouseDoubleClick="OnResultDoubleClick" 
+                  Background="#252525">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Icon}" Width="32" Height="32" Margin="5"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="White"/>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding Icon}" Width="32" Height="32" Margin="5" Grid.Column="0"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0" Grid.Column="1"/>
+                        <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0" Grid.Column="2" HorizontalAlignment="Right"/>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

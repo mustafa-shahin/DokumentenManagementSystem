@@ -14,12 +14,12 @@ namespace DMS.Service
         {
             _context = context;
         }
-        public async Task<Ordner> CreateFolderAsync()
+        public async Task<Ordner> CreateFolder()
         {
             var newFolder = new Ordner
             {
                 Name = "Neuer Ordner",
-                Order = await GetNextFolderOrderAsync(),
+                Order = await GetNextFolderOrder(),
                 SearchTags = []
             };
 
@@ -28,12 +28,12 @@ namespace DMS.Service
             return newFolder; 
         }
 
-        private async Task<int> GetNextFolderOrderAsync()
+        private async Task<int> GetNextFolderOrder()
         {
             return await _context.Ordner.CountAsync() + 1;  
         }
 
-        public async Task UpdateFolderAsync(Ordner folder)
+        public async Task UpdateFolder(Ordner folder)
         {
             var existingFolder = await _context.Ordner.FindAsync(folder.Id); 
             if (existingFolder != null)
@@ -43,7 +43,7 @@ namespace DMS.Service
                 await _context.SaveChangesAsync(); 
             }
         }
-        public async Task<List<Ordner>> GetFoldersAsync()
+        public async Task<List<Ordner>> GetFolders()
         {
             return await _context.Ordner.ToListAsync(); 
         }

@@ -55,7 +55,7 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
 
     private async void OnCreateFolder(object? o)
     {
-        var newFolder = await m_ordnerService.CreateFolderAsync();
+        var newFolder = await m_ordnerService.CreateFolder();
         OrdnerCollection.Add(newFolder);
         FolderCreated?.Invoke(this, newFolder);
     }
@@ -63,7 +63,7 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
     // Load folders by calling OrdnerService
     private async void LoadFoldersAsync()
     {
-        var folders = await m_ordnerService.GetFoldersAsync();
+        var folders = await m_ordnerService.GetFolders();
         foreach (var folder in folders)
         {
             OrdnerCollection.Add(folder);
@@ -74,7 +74,7 @@ public class OrdnerView1VM : ViewModelBase, IOrdnerView1VM
     {
         if (!string.IsNullOrWhiteSpace(folder.Name))
         {
-            await m_ordnerService.UpdateFolderAsync(folder);
+            await m_ordnerService.UpdateFolder(folder);
         }
     }
     private void OnOpenFolder(object o)

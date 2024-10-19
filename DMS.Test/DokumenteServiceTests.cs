@@ -191,7 +191,7 @@ namespace DMS.Tests
             await context.SaveChangesAsync();
 
             // Act
-            var documents = await service.GetAllDocumentsAsync();
+            var documents = await service.GetAllDocuments();
 
             // Assert
             Assert.Equal(2, documents.Count);

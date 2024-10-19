@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using DMS.Model;
 
 namespace ViewModel.Interface.Suche
@@ -8,7 +7,7 @@ namespace ViewModel.Interface.Suche
     {
         event EventHandler<Ordner> FolderOpened;
         void Init(Benutzer currentUser);
-
+        event EventHandler<Benutzer> BenutzerOpened;
         string SearchQuery { get; set; }
         ICommand SearchCommand { get; }
     }

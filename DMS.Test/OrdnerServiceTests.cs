@@ -26,7 +26,7 @@ namespace DMS.Tests
             var service = new OrdnerService(context);
 
             // Act
-            var folder = await service.CreateFolderAsync();
+            var folder = await service.CreateFolder();
 
             // Assert
             Assert.NotNull(folder);
@@ -40,11 +40,11 @@ namespace DMS.Tests
             // Arrange
             var context = GetCreateTestDbContext();
             var service = new OrdnerService(context);
-            var folder = await service.CreateFolderAsync();
+            var folder = await service.CreateFolder();
 
             // Act
             folder.Name = "Updated Folder";
-            await service.UpdateFolderAsync(folder);
+            await service.UpdateFolder(folder);
             var updatedFolder = await context.Ordner.FindAsync(folder.Id);
 
             // Assert
@@ -60,8 +60,8 @@ namespace DMS.Tests
             var service = new OrdnerService(context);
 
             // Act
-            await service.CreateFolderAsync();
-            var folders = await service.GetFoldersAsync();
+            await service.CreateFolder();
+            var folders = await service.GetFolders();
 
             // Assert
             Assert.NotEmpty(folders);
@@ -76,9 +76,9 @@ namespace DMS.Tests
             var service = new OrdnerService(context);
 
             // Act
-            await service.CreateFolderAsync();
-            await service.CreateFolderAsync();
-            var folders = await service.GetFoldersAsync();
+            await service.CreateFolder();
+            await service.CreateFolder();
+            var folders = await service.GetFolders();
 
             // Assert
             Assert.Equal(2, folders.Count); 

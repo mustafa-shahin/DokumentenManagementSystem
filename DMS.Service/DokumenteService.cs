@@ -126,7 +126,7 @@ namespace DMS.Service
 
             return false;
         }
-        public async Task<List<Dokument>> GetAllDocumentsAsync()
+        public async Task<List<Dokument>> GetAllDocuments()
         {
             return await _context.Dokumente
              .Include(d => d.Ersteller)

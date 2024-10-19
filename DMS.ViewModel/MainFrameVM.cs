@@ -2,7 +2,6 @@
 using DMS.ViewModel.Dokumentenuebersicht;
 using DMS.ViewModel.Nutzerverwaltung;
 using DMS.ViewModel.Ordneruebersicht;
-using System.Windows.Input;
 using ViewModel.Interface;
 using ViewModel.Interface.Suche;
 
@@ -63,12 +62,14 @@ public class MainFrameVM : ViewModelBase, IMainFrameVM
         m_nutzerFrameVM = nutzerFrameVM;
         m_sucheViewModel = sucheViewModel;
         m_dokumentenFrameVM = dokumentenFrameVM;
+
         OrdnerCommand = new DelegateCommand(OnOrdner);
         NutzerCommand = new DelegateCommand(OnNutzer);
         LogoutCommand = new DelegateCommand(OnLogout);
         SearchCommand = new DelegateCommand(OnSearch);
 
         m_sucheViewModel.FolderOpened += OnFolderOpened;
+        m_sucheViewModel.BenutzerOpened += OnBenutzerOpened;
     }
 
     public void Init(Benutzer currentUser)
@@ -110,5 +111,10 @@ public class MainFrameVM : ViewModelBase, IMainFrameVM
     {
         m_dokumentenFrameVM.Init(folder, CurrentUser);
         CurrentView = m_dokumentenFrameVM;
+    }
+    private void OnBenutzerOpened(object sender, Benutzer benutzer)
+    {
+        m_nutzerFrameVM.Init(CurrentUser);
+        CurrentView = m_nutzerFrameVM;     
     }
 }
