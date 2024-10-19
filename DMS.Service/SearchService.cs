@@ -43,12 +43,12 @@ namespace DMS.Service
             }));
             if (currentUser.IsAdmin) 
             {
-                searchResults.AddRange(matchingUsers.Select(benutzer => new SearchResultItem
+                searchResults.AddRange(matchingUsers.Select(user => new SearchResultItem
                 {
-                    Name = benutzer.Name,
+                    Name = user.Name,
                     IsFolder = false,
-                    Benutzer = benutzer,
-                    Icon = "",
+                    Benutzer = user,
+                    Icon = "pack://application:,,,/Assets/user-icon.png",
                     Type = "Benutzer"
                 }));
             }
