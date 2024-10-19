@@ -22,8 +22,7 @@ namespace DMS.Service
                 .Where(d => d.Name.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase) &&
                             (d.IsVisibleAllUser || d.Ersteller.Id == currentUser.Id));
 
-            var matchingUsers = users
-                    .Where(d => d.Name.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase));
+
             searchResults.AddRange(matchingFolders.Select(folder => new SearchResultItem
             {
                 Name = folder.Name,
@@ -41,8 +40,11 @@ namespace DMS.Service
                 Icon = "pack://application:,,,/Assets/file-icon.png",
                 Type = "Dokument"
             }));
+            
             if (currentUser.IsAdmin) 
             {
+                var matchingUsers = users
+                    .Where(d => d.Name.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase));
                 searchResults.AddRange(matchingUsers.Select(user => new SearchResultItem
                 {
                     Name = user.Name,
