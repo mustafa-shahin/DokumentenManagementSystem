@@ -6,25 +6,36 @@
              xmlns:local="clr-namespace:DokumentenManagementSystem.Suche"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
-        <ListView ItemsSource="{Binding SearchResults}" 
-                  SelectedItem="{Binding SelectedItem}" 
-                  MouseDoubleClick="OnResultDoubleClick" 
-                  Background="#252525">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="400"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="{Binding Icon}" Width="32" Height="32" Margin="5" Grid.Column="0" />
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0" Grid.Column="1"/>
-                        <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0" Grid.Column="2" HorizontalAlignment="Right" MinWidth="85" MaxWidth="90"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
+            <ListView ItemsSource="{Binding SearchResults}" 
+                      SelectedItem="{Binding SelectedItem}" 
+                      MouseDoubleClick="OnResultDoubleClick" 
+                      Background="#252525"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch" BorderThickness="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Padding="10" Background="#1E2D38" CornerRadius="10" BorderThickness="0"
+                                HorizontalAlignment="Stretch">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding Icon}" Width="32" Height="32" Margin="5" Grid.Column="0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0" Grid.Column="1"/>
+                                <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0" Grid.Column="2" HorizontalAlignment="Right" MinWidth="85" MaxWidth="90"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </UserControl>
