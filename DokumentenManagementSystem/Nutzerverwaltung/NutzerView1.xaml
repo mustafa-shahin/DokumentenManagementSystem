@@ -28,42 +28,40 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
+                                <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" >
+                                    <Image Source="pack://application:,,,/Assets/user-icon.png" Width="20" Height="20" Margin="5"  />
+                                    <TextBlock                               
                                     FontSize="24"
                                     Text="{Binding Path=Name}" />
 
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Text="Admin" />
-                                <CheckBox
-                                    Grid.Row="1"
-                                    Grid.Column="1"
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock                                 
+                                    Text="Admin" Margin="30,0,10,0" />
+                                    <CheckBox
+                                    Width="20"
                                     FontSize="20"
                                     IsChecked="{Binding Path=IsAdmin}"
                                     IsEnabled="{Binding Path=DataContext.CurrentUser.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}">
-                                    <CheckBox.LayoutTransform>
-                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                                    </CheckBox.LayoutTransform>
-                                </CheckBox>
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Text="Aktiv" />
-                                <CheckBox
-                                    Grid.Row="2"
-                                    Grid.Column="1"
+                                        <CheckBox.LayoutTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </CheckBox.LayoutTransform>
+                                    </CheckBox>
+                                </StackPanel>
+                                <StackPanel  Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock                                   
+                                    Text="Aktiv"  Margin="30,0,10,0" />
+                                    <CheckBox
+                                    Margin="13,0,0,0"
                                     FontSize="20"
                                     IsChecked="{Binding Path=IsActive}"
                                     IsEnabled="{Binding Path=DataContext.CurrentUser.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}">
-                                    <CheckBox.LayoutTransform>
-                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                                    </CheckBox.LayoutTransform>
-                                </CheckBox>
+                                        <CheckBox.LayoutTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </CheckBox.LayoutTransform>
+                                    </CheckBox>
+                                </StackPanel>
+
                                 <Button
                                     Grid.Row="1"
                                     Grid.Column="1"
