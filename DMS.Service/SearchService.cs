@@ -48,7 +48,7 @@ namespace DMS.Service
                     Name = user.Name,
                     IsFolder = false,
                     Benutzer = user,
-                    Icon = "pack://application:,,,/Assets/user-icon.png",
+                    Icon = user.IsAdmin ? "pack://application:,,,/Assets/admin-icon.png" : "pack://application:,,,/Assets/user-icon.png",
                     Type = "Benutzer"
                 }));
             }
