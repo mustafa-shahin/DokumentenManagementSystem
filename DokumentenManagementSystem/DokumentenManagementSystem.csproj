@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\add-folder-Icon.png" />
     <None Remove="Assets\admin-icon.png" />
     <None Remove="Assets\back-icon.png" />
     <None Remove="Assets\download-icon.png" />
@@ -44,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\add-folder-Icon.png" />
     <Resource Include="Assets\admin-icon.png" />
     <Resource Include="Assets\back-icon.png" />
     <Resource Include="Assets\download-icon.png" />

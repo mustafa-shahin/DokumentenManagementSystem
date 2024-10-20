@@ -135,5 +135,13 @@ namespace DMS.View.Ordneruebersicht
                 }
             }
         }
+
+        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (this.DataContext is OrdnerView1VM viewModel)
+            {
+                viewModel.CreateFolderCommand.Execute(null);
+            }
+        }
     }
 }

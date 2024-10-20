@@ -11,13 +11,25 @@
     MouseDown="OnUserControlMouseDown">
     <Grid  Background="Transparent">
         <StackPanel>
-            <Button
+            <StackPanel MouseDown="StackPanel_MouseDown" Cursor="Hand">
+                <Button
         Width="200"
         Height="75"
         Margin="2"
+        Background="Transparent"
         Command="{Binding Path=CreateFolderCommand}"
-        Content="Neuen Ordner erstellen"
-        Style="{StaticResource ButtonStyle}"/>
+        Style="{StaticResource ButtonStyle}">
+                    <Image Source="pack://application:,,,/Assets/add-folder-icon.png"
+                               Width="50"
+                               Height="50"/>
+                </Button>
+                <TextBlock Text="Ordner Erstellen"
+                               HorizontalAlignment="Center"
+                               FontSize="10"
+                               Foreground="White" Cursor="Hand">
+                </TextBlock>
+            </StackPanel>
+
 
             <ItemsControl x:Name="FolderItemsControl"
                   ItemsSource="{Binding Path=OrdnerCollection}">
