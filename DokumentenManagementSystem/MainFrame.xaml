@@ -99,7 +99,8 @@
                     Command="{Binding Path=LogoutCommand}"
                     Background="Transparent"
                     HorizontalAlignment="Right"
-                    Cursor="Hand">
+                    Cursor="Hand"
+                    Width="50">
                     <Image Source="pack://application:,,,/Assets/logout-icon.png"
                            Width="50"
                            Height="50"/>
