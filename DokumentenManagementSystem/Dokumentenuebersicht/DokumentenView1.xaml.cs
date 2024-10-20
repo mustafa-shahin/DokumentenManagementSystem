@@ -1,4 +1,5 @@
-﻿using DMS.ViewModel;
+﻿using DMS.Model;
+using DMS.ViewModel;
 using DMS.ViewModel.Dokumentenuebersicht;
 using DokumentenManagementSystem.Dokumentenuebersicht;
 using System.Windows;
@@ -16,6 +17,7 @@ namespace DMS.View.Dokumentenuebersicht
     {
         private DokumentenView1VM _viewModel;
         private bool _isSidebarOpen = false;
+
         public DokumentenView1()
         {
             InitializeComponent();
@@ -24,11 +26,13 @@ namespace DMS.View.Dokumentenuebersicht
 
         private void DokumentenView1_Loaded(object sender, RoutedEventArgs e)
         {
+            SidebarCanvas.IsHitTestVisible = false;
             _viewModel = DataContext as DokumentenView1VM;
 
             if (_viewModel != null)
             {
                 _viewModel.FileDownloaded += OnFileDownloaded;
+                _viewModel.EditFile += OnEditFile;
             }
         }
 
@@ -128,5 +132,18 @@ namespace DMS.View.Dokumentenuebersicht
                 }
             }
         }
+        private void OnEditFile(Dokument file)
+        {
+            var editDialog = new EditFileDialog(file);
+            var result = editDialog.ShowDialog();
+
+            if (result == true)
+            {
+                file.Description = editDialog.FileDescription;
+                file.IsVisibleAllUser = editDialog.IsVisibleAllUser;
+                _viewModel.SaveFileCommand.Execute(null);
+            }
+        }
+
     }
 }

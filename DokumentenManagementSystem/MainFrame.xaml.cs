@@ -15,6 +15,7 @@ namespace DokumentenManagementSystem
         }
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
+            
             if (e.Key == Key.Enter)
             {
                 if(sender is TextBox)
@@ -31,32 +32,6 @@ namespace DokumentenManagementSystem
                 }
             }
         }
-
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext is MainFrameVM viewModel)
-            {
-                if (sender is TextBlock textBlock)
-                {
-                    if (textBlock.Name == "users")
-                    {
-                        if (viewModel.NutzerCommand.CanExecute(null))
-                            viewModel.NutzerCommand.Execute(null);
-                    }
-                    else if (textBlock.Name == "folders")
-                    {
-                        if (viewModel.OrdnerCommand.CanExecute(null))
-                            viewModel.OrdnerCommand.Execute(null);
-                    }
-                    else if (textBlock.Name == "logout")
-                    {
-                        if (viewModel.LogoutCommand.CanExecute(null))
-                            viewModel.LogoutCommand.Execute(null);
-                    }
-                }
-            }
-        }
-
 
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

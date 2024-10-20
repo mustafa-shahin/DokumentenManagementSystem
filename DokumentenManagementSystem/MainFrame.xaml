@@ -41,7 +41,7 @@
                     <TextBlock Text="Ordner"
                                HorizontalAlignment="Center"
                                FontSize="10"
-                               Foreground="White" Cursor="Hand" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown">
+                               Foreground="White" Cursor="Hand">
                     </TextBlock>
                 </StackPanel>
                 <StackPanel  Margin="15,0,0,0" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="users">

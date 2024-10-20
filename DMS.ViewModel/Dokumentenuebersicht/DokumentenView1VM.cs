@@ -16,7 +16,10 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         public ICommand SaveFileCommand { get; set; }
         public ICommand DownloadFileCommand { get; set; }
         public event Action<string> FileDownloaded;
+        public event Action<Dokument> EditFile;
+        public ICommand EditFileCommand { get; set; }
         private Dokument _selectedFile = new();
+        private bool _isEditingFile = false;
         public Dokument SelectedFile
         {
             get => _selectedFile;
@@ -45,6 +48,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             AddFileCommand = new DelegateCommand(AddFile);
             SaveFileCommand = new DelegateCommand(SaveFile);
             DownloadFileCommand = new DelegateCommand(DownloadFile);
+            EditFileCommand = new DelegateCommand(OnEditFile);
             FilesCollection = [];
         }
 
@@ -59,6 +63,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
 
         private async void LoadFiles()
         {
+            FilesCollection.Clear();
             var files = await _dokumenteService.GetFilesForFolder(m_currentFolder.Id, m_currentUser);
 
             foreach (var file in files)
@@ -94,6 +99,22 @@ namespace DMS.ViewModel.Dokumentenuebersicht
                 if(openDialog)
                     FileDownloaded?.Invoke(_dokumenteService.FilePath);
             }
+        }
+        private void OnEditFile(object obj)
+        {
+            if (_isEditingFile)
+                return;
+
+            _isEditingFile = true;
+
+            if (obj is Dokument file)
+            {
+                EditFile?.Invoke(file);
+            }
+
+            _isEditingFile = false;
+            SaveFile(obj);
+            LoadFiles();
         }
     }
 }
