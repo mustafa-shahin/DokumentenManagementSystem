@@ -59,7 +59,10 @@ namespace DMS.View.Dokumentenuebersicht
         private void OnFileDownloaded(string filePath)
         {
             var dialog = new DownloadCompleteDialog(filePath);
-            dialog.ShowDialog();
+            if(_viewModel.DownloadDialog)
+                dialog.ShowDialog();
+
+            _viewModel.DownloadDialog = false;
         }
         private void OpenSidebar()
         {
@@ -136,10 +139,10 @@ namespace DMS.View.Dokumentenuebersicht
         }
         private void OnEditFile(Dokument file)
         {
-            if (_viewModel == null || !_viewModel._isEditingFile)
+            if (_viewModel == null || !_viewModel.IsEditingFile)
                 return;
 
-            _viewModel._isEditingFile = true;
+            _viewModel.IsEditingFile = true;
 
             var editDialog = new EditFileDialog(file);
             var result = editDialog.ShowDialog();
@@ -152,7 +155,7 @@ namespace DMS.View.Dokumentenuebersicht
                 _viewModel.LoadFiles();
             }
 
-            _viewModel._isEditingFile = false;
+            _viewModel.IsEditingFile = false;
 
         }
 

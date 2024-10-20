@@ -19,7 +19,9 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         public event Action<Dokument> EditFile;
         public ICommand EditFileCommand { get; set; }
         private Dokument _selectedFile = new();
-        public bool _isEditingFile {  get; set; } = false;
+        public bool IsEditingFile {  get; set; } = false;
+        public bool DownloadDialog { get; set; } = false;
+
         public Dokument SelectedFile
         {
             get => _selectedFile;
@@ -93,6 +95,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
 
         private void DownloadFile(object obj)
         {
+            DownloadDialog = true;
             if (obj is Dokument file)
             {
                 _dokumenteService.DownloadFile(file, out bool openDialog);
@@ -102,10 +105,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         }
         private void OnEditFile(object obj)
         {
-            if (_isEditingFile)
-                return;
-
-            _isEditingFile = true;
+            IsEditingFile = true;
 
             if (obj is Dokument file)
             {
