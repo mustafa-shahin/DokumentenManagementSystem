@@ -17,11 +17,13 @@ namespace DMS.View.Dokumentenuebersicht
     {
         private DokumentenView1VM _viewModel;
         private bool _isSidebarOpen = false;
-
+        private bool _edit = false;
         public DokumentenView1()
         {
             InitializeComponent();
             this.Loaded += DokumentenView1_Loaded;
+            _edit = true;
+
         }
 
         private void DokumentenView1_Loaded(object sender, RoutedEventArgs e)
@@ -31,8 +33,8 @@ namespace DMS.View.Dokumentenuebersicht
 
             if (_viewModel != null)
             {
-                _viewModel.FileDownloaded += OnFileDownloaded;
-                _viewModel.EditFile += OnEditFile;
+                _viewModel.FileDownloaded += OnFileDownloaded;  
+                    _viewModel.EditFile += OnEditFile;               
             }
         }
 
@@ -134,6 +136,11 @@ namespace DMS.View.Dokumentenuebersicht
         }
         private void OnEditFile(Dokument file)
         {
+            if (_viewModel == null || !_viewModel._isEditingFile)
+                return;
+
+            _viewModel._isEditingFile = true;
+
             var editDialog = new EditFileDialog(file);
             var result = editDialog.ShowDialog();
 
@@ -141,8 +148,12 @@ namespace DMS.View.Dokumentenuebersicht
             {
                 file.Description = editDialog.FileDescription;
                 file.IsVisibleAllUser = editDialog.IsVisibleAllUser;
-                _viewModel.SaveFileCommand.Execute(null);
+                _viewModel.SaveFileCommand.Execute(file);
+                _viewModel.LoadFiles();
             }
+
+            _viewModel._isEditingFile = false;
+
         }
 
     }

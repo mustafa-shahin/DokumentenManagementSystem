@@ -29,19 +29,19 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0"
-                                        Orientation="Horizontal"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="2">
+                                            Orientation="Horizontal"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2">
                                     <Image Width="20"
-                                            Height="20"
-                                            Margin="5">
+                                           Height="20"
+                                           Margin="5">
                                         <Image.Style>
                                             <Style TargetType="Image">
                                                 <Setter Property="Source"
                                                         Value="pack://application:,,,/Assets/user-icon.png"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsAdmin}"
-                                                            Value="True">
+                                                                 Value="True">
                                                         <Setter Property="Source"
                                                                 Value="pack://application:,,,/Assets/admin-icon.png"/>
                                                     </DataTrigger>
@@ -55,11 +55,11 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1"
-                                        Grid.Column="0"
-                                        Orientation="Horizontal">
+                                            Grid.Column="0"
+                                            Orientation="Horizontal">
                                     <TextBlock
                                         Text="Admin"
-                                            Margin="30,0,10,0"/>
+                                        Margin="30,0,10,0"/>
                                     <CheckBox
                                         Width="20"
                                         FontSize="20"
@@ -67,16 +67,16 @@
                                         IsEnabled="{Binding Path=DataContext.CurrentUser.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}">
                                         <CheckBox.LayoutTransform>
                                             <ScaleTransform ScaleX="1.5"
-                                                    ScaleY="1.5"/>
+                                                            ScaleY="1.5"/>
                                         </CheckBox.LayoutTransform>
                                     </CheckBox>
                                 </StackPanel>
                                 <StackPanel  Grid.Row="2"
-                                        Grid.Column="0"
-                                        Orientation="Horizontal">
+                                             Grid.Column="0"
+                                             Orientation="Horizontal">
                                     <TextBlock
                                         Text="Aktiv"
-                                            Margin="30,0,10,0"/>
+                                        Margin="30,0,10,0"/>
                                     <CheckBox
                                         Margin="13,0,0,0"
                                         FontSize="20"
@@ -84,20 +84,35 @@
                                         IsEnabled="{Binding Path=DataContext.CurrentUser.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}">
                                         <CheckBox.LayoutTransform>
                                             <ScaleTransform ScaleX="1.5"
-                                                    ScaleY="1.5"/>
+                                                            ScaleY="1.5"/>
                                         </CheckBox.LayoutTransform>
                                     </CheckBox>
                                 </StackPanel>
-
-                                <Button
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Command="{Binding DataContext.SaveBenutzerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"
-                                    Content="Speichern"
-                                    Style="{StaticResource ButtonStyle}"
-                                    Visibility="{Binding Path=DataContext.CurrentUser.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <StackPanel Width="60"
+                                            MouseLeftButtonDown="StackPanel_MouseLeftButtonDown"
+                                            Cursor="Hand"
+                                            Orientation="Vertical"
+                                            HorizontalAlignment="Right"
+                                            Grid.Row="1"
+                                            Grid.Column="1">
+                                    <Button Width="60"
+                                            Background="Transparent"
+                                            HorizontalAlignment="Right"
+                                            Command="{Binding DataContext.SaveBenutzerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource ButtonStyle}"
+                                            Visibility="{Binding Path=DataContext.CurrentUser.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Image Source="pack://application:,,,/Assets/save-icon.png"
+                                               Width="40"
+                                               Height="40"/>
+                                    </Button>
+                                    <TextBlock Text="Speichern"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"
+                                               Foreground="White"
+                                               Cursor="Hand">
+                                    </TextBlock>
+                                </StackPanel>
                             </Grid>
                         </Border>
                     </DataTemplate>

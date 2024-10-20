@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DMS.ViewModel.Dokumentenuebersicht;
+using DMS.ViewModel.Nutzerverwaltung;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,19 @@ namespace DMS.View.Nutzerverwaltung
         public NutzerView1()
         {
             InitializeComponent();
+        }
+
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is NutzerView1VM viewModel)
+            {
+                if (sender is StackPanel)
+                {
+                    if (viewModel.SaveBenutzerCommand.CanExecute(null))
+                        viewModel.SaveBenutzerCommand.Execute(null);
+                    viewModel.Init(viewModel.CurrentUser);
+                }
+            }
         }
     }
 }

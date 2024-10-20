@@ -87,30 +87,45 @@
                     KeyDown="SearchTextBox_KeyDown"/>
 
             </WrapPanel>
-
-
-
-            <StackPanel Grid.Column="3"
+            <StackPanel Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel  Margin="10" VerticalAlignment="Center" >
+                    <Image Width="50" Height="50">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Source" Value="pack://application:,,,/Assets/user-icon.png" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=CurrentUser.IsAdmin}" Value="True">
+                                        <Setter Property="Source" Value="pack://application:,,,/Assets/admin-icon.png" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                    <TextBlock Text="{Binding Path=CurrentUser.Name}" HorizontalAlignment="Center" FontSize="10" Foreground="White" Cursor="Hand" ></TextBlock>
+                </StackPanel>
+                <StackPanel 
                         Margin="10"
                         HorizontalAlignment="Right"
                         Orientation="Vertical"
                         MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="logout">
-                <Button
+                    <Button
                     Command="{Binding Path=LogoutCommand}"
                     Background="Transparent"
                     HorizontalAlignment="Right"
                     Cursor="Hand"
                     Width="50">
-                    <Image Source="pack://application:,,,/Assets/logout-icon.png"
+                        <Image Source="pack://application:,,,/Assets/logout-icon.png"
                            Width="50"
                            Height="50"/>
-                </Button>
-                <TextBlock Text="Logout"
+                    </Button>
+                    <TextBlock Text="Logout"
                            HorizontalAlignment="Center"
                            FontSize="10"
                            Foreground="White" Cursor="Hand">
-                </TextBlock>
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
+
         </Grid>
 
         <Border

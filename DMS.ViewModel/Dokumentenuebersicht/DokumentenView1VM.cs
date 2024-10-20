@@ -19,7 +19,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         public event Action<Dokument> EditFile;
         public ICommand EditFileCommand { get; set; }
         private Dokument _selectedFile = new();
-        private bool _isEditingFile = false;
+        public bool _isEditingFile {  get; set; } = false;
         public Dokument SelectedFile
         {
             get => _selectedFile;
@@ -61,7 +61,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             LoadFiles();
         }
 
-        private async void LoadFiles()
+        public async void LoadFiles()
         {
             FilesCollection.Clear();
             var files = await _dokumenteService.GetFilesForFolder(m_currentFolder.Id, m_currentUser);
@@ -111,10 +111,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             {
                 EditFile?.Invoke(file);
             }
-
-            _isEditingFile = false;
             SaveFile(obj);
-            LoadFiles();
         }
     }
 }
