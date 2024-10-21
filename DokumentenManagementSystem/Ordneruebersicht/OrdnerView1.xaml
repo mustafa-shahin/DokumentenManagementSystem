@@ -9,90 +9,209 @@
     d:DesignWidth="800"
     mc:Ignorable="d"
     MouseDown="OnUserControlMouseDown">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ScrollThumbs"
+                TargetType="{x:Type Thumb}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid x:Name="Grid">
+                                <Rectangle HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        Fill="Transparent"/>
+                                <Border x:Name="Rectangle1"
+                                     CornerRadius="5"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     Width="Auto"
+                                     Height="Auto"
+                                     Background="{TemplateBinding Background}"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Tag"
+                                      Value="Horizontal">
+                                    <Setter TargetName="Rectangle1"
+                                         Property="Width"
+                                         Value="Auto"/>
+                                    <Setter TargetName="Rectangle1"
+                                         Property="Height"
+                                         Value="7"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="{x:Type ScrollBar}"
+                TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsFlicksEnabled"
+                     Value="False"/>
+                <Setter Property="Foreground"
+                     Value="#1A4B4B"/>
+                <Setter Property="Background"
+                     Value="DarkGray"/>
+                <Setter Property="Width"
+                     Value="10"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="GridRoot"
+                               Width="12"
+                               Background="{x:Null}">
+                                <Track x:Name="PART_Track"
+                                    Grid.Row="0"
+                                    IsDirectionReversed="true"
+                                    Focusable="False">
+                                    <Track.Thumb>
+                                        <Thumb x:Name="Thumb"
+                                            Background="{TemplateBinding Foreground}"
+                                            Style="{DynamicResource ScrollThumbs}"/>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger SourceName="Thumb"
+                                      Property="IsMouseOver"
+                                      Value="true">
+                                    <Setter Value="{DynamicResource ButtonSelectBrush}"
+                                         TargetName="Thumb"
+                                         Property="Background"/>
+                                </Trigger>
+                                <Trigger SourceName="Thumb"
+                                      Property="IsDragging"
+                                      Value="true">
+                                    <Setter Value="{DynamicResource DarkBrush}"
+                                         TargetName="Thumb"
+                                         Property="Background"/>
+                                </Trigger>
+
+                                <Trigger Property="IsEnabled"
+                                      Value="false">
+                                    <Setter TargetName="Thumb"
+                                         Property="Visibility"
+                                         Value="Collapsed"/>
+                                </Trigger>
+                                <Trigger Property="Orientation"
+                                      Value="Horizontal">
+                                    <Setter TargetName="GridRoot"
+                                         Property="LayoutTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="-90"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter TargetName="PART_Track"
+                                         Property="LayoutTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="-90"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Width"
+                                         Value="Auto"/>
+                                    <Setter Property="Height"
+                                         Value="12"/>
+                                    <Setter TargetName="Thumb"
+                                         Property="Tag"
+                                         Value="Horizontal"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid  Background="Transparent">
-        <StackPanel>
-            <StackPanel MouseDown="StackPanel_MouseDown" Cursor="Hand">
-                <Button
-        Width="200"
-        Height="75"
-        Margin="2"
-        Background="Transparent"
-        Command="{Binding Path=CreateFolderCommand}"
-        Style="{StaticResource ButtonStyle}">
-                    <Image Source="pack://application:,,,/Assets/add-folder-icon.png"
-                               Width="50"
-                               Height="50"/>
-                </Button>
-                <TextBlock Text="Ordner Erstellen"
-                               HorizontalAlignment="Center"
-                               FontSize="10"
-                               Foreground="White" Cursor="Hand">
-                </TextBlock>
+        <ScrollViewer>
+            <StackPanel>
+                <StackPanel MouseDown="StackPanel_MouseDown" Cursor="Hand">
+                    <Button
+   Width="200"
+   Height="75"
+   Margin="2"
+   Background="Transparent"
+   Command="{Binding Path=CreateFolderCommand}"
+   Style="{StaticResource ButtonStyle}">
+                        <Image Source="pack://application:,,,/Assets/add-folder-icon.png"
+                          Width="50"
+                          Height="50"/>
+                    </Button>
+                    <TextBlock Text="Ordner Erstellen"
+                          HorizontalAlignment="Center"
+                          FontSize="10"
+                          Foreground="White" Cursor="Hand">
+                    </TextBlock>
+                </StackPanel>
+
+
+                <ItemsControl x:Name="FolderItemsControl"
+             ItemsSource="{Binding Path=OrdnerCollection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="8"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5"
+                   Background="Transparent"
+                   CornerRadius="5">
+                                <StackPanel HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                                    <Image Source="pack://application:,,,/Assets/folder-icon.png"
+                          Width="50"
+                          Height="50"
+                          MouseLeftButtonDown="FolderIcon_MouseLeftButtonDown" Cursor="Hand"/>
+
+                                    <TextBox
+                       x:Name="FolderNameTextBox"
+                       Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Margin="2,5,2,0"
+                       Background="Transparent"
+                       Foreground="White"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       FontSize="14"
+                       CaretBrush="White"
+                       SelectionBrush="White"
+                       LostFocus="TextBox_LostFocus"
+                       PreviewMouseDown="TextBox_PreviewMouseDown"
+                       PreviewKeyDown="TextBox_PreviewKeyDown"
+                       MinWidth="50"
+                       MaxWidth="200"
+                       TextWrapping="Wrap"
+                       AcceptsReturn="False">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="BorderBrush"
+                                       Value="Transparent"/>
+                                                <Setter Property="BorderThickness"
+                                       Value="1"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsFocused"
+                                            Value="True">
+                                                        <Setter Property="BorderBrush"
+                                               Value="White"/>
+                                                        <Setter Property="BorderThickness"
+                                               Value="1"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
-
-
-            <ItemsControl x:Name="FolderItemsControl"
-                  ItemsSource="{Binding Path=OrdnerCollection}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="8"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="5"
-                        Background="Transparent"
-                        CornerRadius="5">
-                            <StackPanel HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                                <Image Source="pack://application:,,,/Assets/folder-icon.png"
-                               Width="50"
-                               Height="50"
-                               MouseLeftButtonDown="FolderIcon_MouseLeftButtonDown" Cursor="Hand"/>
-
-                                <TextBox
-                            x:Name="FolderNameTextBox"
-                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="2,5,2,0"
-                            Background="Transparent"
-                            Foreground="White"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            FontSize="14"
-                            CaretBrush="White"
-                            SelectionBrush="White"
-                            LostFocus="TextBox_LostFocus"
-                            PreviewMouseDown="TextBox_PreviewMouseDown"
-                            PreviewKeyDown="TextBox_PreviewKeyDown"
-                            MinWidth="50"
-                            MaxWidth="200"
-                            TextWrapping="Wrap"
-                            AcceptsReturn="False">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox">
-                                            <Setter Property="BorderBrush"
-                                            Value="Transparent"/>
-                                            <Setter Property="BorderThickness"
-                                            Value="1"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsFocused"
-                                                 Value="True">
-                                                    <Setter Property="BorderBrush"
-                                                    Value="White"/>
-                                                    <Setter Property="BorderThickness"
-                                                    Value="1"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
-
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
+        </ScrollViewer>
+     
     </Grid>
 
 </UserControl>
