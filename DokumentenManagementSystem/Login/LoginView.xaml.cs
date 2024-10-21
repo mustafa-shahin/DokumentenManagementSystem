@@ -1,17 +1,9 @@
-﻿using System;
+﻿using DMS.ViewModel.Login;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DokumentenManagementSystem.Login
 {
@@ -23,6 +15,28 @@ namespace DokumentenManagementSystem.Login
         public LoginView()
         {
             InitializeComponent();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is LoginVM loginVM)
+            {
+                if (sender is PasswordBox passwordBox)
+                {
+                    loginVM.Passwort = passwordBox.Password;
+                }
+            }
+        }
+
+        private void PasswordBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                if (DataContext is LoginVM loginVM && sender is PasswordBox passwordBox)
+                {
+                    loginVM.LoginCommand.Execute(null);
+                }
+            }
         }
     }
 }
