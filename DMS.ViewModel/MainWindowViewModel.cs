@@ -67,10 +67,17 @@ public class MainWindowViewModel : ViewModelBase
     private void OnForgotPassword(object sender, EventArgs e)
     {
         m_forgotPasswordVM.PasswordChangedEvent += OnPasswordChanged;
+        m_forgotPasswordVM.GoBackEvent += OnGoBack;
         m_forgotPasswordVM.Init();
         CurrentView = m_forgotPasswordVM;
     }
     private void OnPasswordChanged(object sender, EventArgs e)
+    {
+        m_loginVM.Init();
+        CurrentView = m_loginVM;
+    }
+
+    private void OnGoBack(object sender, EventArgs e)
     {
         m_loginVM.Init();
         CurrentView = m_loginVM;

@@ -18,6 +18,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
 
         public event EventHandler PasswordForgetWindow;
         public event EventHandler PasswordChangedEvent;
+        public event EventHandler GoBackEvent;
 
         public string Benutzername
         {
@@ -67,6 +68,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
             set => SetField(ref _message, value);
         }
 
+        public ICommand GoBackCommand { get; set; }
         public DelegateCommand SendCodeCommand { get; }
         public DelegateCommand VerifyCodeCommand { get; }
         public DelegateCommand ChangePasswordCommand { get; }
@@ -78,6 +80,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
             SendCodeCommand = new DelegateCommand(OnSendCode);
             VerifyCodeCommand = new DelegateCommand(OnVerifyCode);
             ChangePasswordCommand = new DelegateCommand(OnChangePassword);
+            GoBackCommand = new DelegateCommand(OnGoBack);
         }
         public void Init()
         {
@@ -124,6 +127,11 @@ namespace DMS.ViewModel.ForgotPasswordVM
             }
             else
                 Message = "Passwörter stimmen nicht überein.";
+        }
+
+        private void OnGoBack(object obj)
+        {
+            GoBackEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 }
