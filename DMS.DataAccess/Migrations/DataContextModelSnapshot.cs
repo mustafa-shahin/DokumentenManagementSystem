@@ -69,8 +69,10 @@ namespace DMS.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("OrdnerId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Searchtags")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Version")
@@ -80,6 +82,8 @@ namespace DMS.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ErstellerId");
+
+                    b.HasIndex("OrdnerId");
 
                     b.ToTable("Dokumente");
                 });
@@ -114,7 +118,15 @@ namespace DMS.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DMS.Model.Ordner", "Ordner")
+                        .WithMany()
+                        .HasForeignKey("OrdnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Ersteller");
+
+                    b.Navigation("Ordner");
                 });
 #pragma warning restore 612, 618
         }

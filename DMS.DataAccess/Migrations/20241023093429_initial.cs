@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DMS.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,7 +55,8 @@ namespace DMS.DataAccess.Migrations
                     ErstellDatum = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Content = table.Column<byte[]>(type: "BLOB", nullable: false),
                     IsVisibleAllUser = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Searchtags = table.Column<string>(type: "TEXT", nullable: false)
+                    Searchtags = table.Column<string>(type: "TEXT", nullable: true),
+                    OrdnerId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,12 +67,23 @@ namespace DMS.DataAccess.Migrations
                         principalTable: "Benutzer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Dokumente_Ordner_OrdnerId",
+                        column: x => x.OrdnerId,
+                        principalTable: "Ordner",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dokumente_ErstellerId",
                 table: "Dokumente",
                 column: "ErstellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dokumente_OrdnerId",
+                table: "Dokumente",
+                column: "OrdnerId");
         }
 
         /// <inheritdoc />
@@ -81,10 +93,10 @@ namespace DMS.DataAccess.Migrations
                 name: "Dokumente");
 
             migrationBuilder.DropTable(
-                name: "Ordner");
+                name: "Benutzer");
 
             migrationBuilder.DropTable(
-                name: "Benutzer");
+                name: "Ordner");
         }
     }
 }

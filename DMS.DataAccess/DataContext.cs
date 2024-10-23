@@ -13,14 +13,14 @@ namespace DMS.DataAccess
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured) // Ensure this is only configured if not already done
-            {
-                var folder = Environment.SpecialFolder.LocalApplicationData;
-                var path = System.IO.Path.Join(Environment.GetFolderPath(folder), "dms.db");
-                optionsBuilder.UseSqlite($"Data Source={path}");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured) // Ensure this is only configured if not already done
+        //    {
+        //        var folder = Environment.SpecialFolder.LocalApplicationData;
+        //        var path = System.IO.Path.Join(Environment.GetFolderPath(folder), "dms.db");
+        //        optionsBuilder.UseSqlite($"Data Source={path}");
+        //    }
+        //}
     }
 }

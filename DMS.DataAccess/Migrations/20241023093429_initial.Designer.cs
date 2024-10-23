@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DMS.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240911123436_Initial")]
-    partial class Initial
+    [Migration("20241023093429_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,8 +72,10 @@ namespace DMS.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("OrdnerId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Searchtags")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Version")
@@ -83,6 +85,8 @@ namespace DMS.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ErstellerId");
+
+                    b.HasIndex("OrdnerId");
 
                     b.ToTable("Dokumente");
                 });
@@ -117,7 +121,15 @@ namespace DMS.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DMS.Model.Ordner", "Ordner")
+                        .WithMany()
+                        .HasForeignKey("OrdnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Ersteller");
+
+                    b.Navigation("Ordner");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,6 +15,8 @@ using DMS.ViewModel.ForgotPasswordVM;
 using ViewModel.Interface.ForgotPassword;
 using ViewModel.Interface.Suche;
 using DMS.ViewModel.SucheViewModel;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DokumentenManagementSystem
 {
@@ -24,10 +26,25 @@ namespace DokumentenManagementSystem
     public partial class App : Application
     {
         private UnityContainer m_container;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             m_container = new UnityContainer();
+
+            // Dynamischer Pfad für die SQLite-Datenbank
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = System.IO.Path.Join(Environment.GetFolderPath(folder), "dms.db");
+
+            // Erstelle die DbContextOptions explizit
+            var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+            optionsBuilder.UseSqlite($"Data Source={path}"); // Dynamischer SQLite-Datenbankpfad
+
+            // DbContextOptions und DataContext registrieren
+            m_container.RegisterInstance(optionsBuilder.Options); // Registriere die Optionen im Container
+            m_container.RegisterType<DataContext>(); // Registriere den DataContext im Container
+
+            // Registriere deine ViewModels und Services
             m_container.RegisterType<MainWindowViewModel>();
             m_container.RegisterType<IMainFrameVM, MainFrameVM>();
             m_container.RegisterType<IDokumentenFrameVM, DokumentenFrameVM>();
@@ -43,15 +60,14 @@ namespace DokumentenManagementSystem
             m_container.RegisterType<DokumenteService>();
             m_container.RegisterType<OrdnerService>();
             m_container.RegisterType<EmailService>();
-            MainWindowViewModel main = m_container.Resolve<MainWindowViewModel>();
 
+            // Hauptfenster anzeigen
+            MainWindowViewModel main = m_container.Resolve<MainWindowViewModel>();
             MainWindow mainWindow = new MainWindow()
             {
                 DataContext = main
             };
             mainWindow.Show();
-           
         }
     }
-
 }
