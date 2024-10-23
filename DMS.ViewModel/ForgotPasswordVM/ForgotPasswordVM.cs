@@ -197,6 +197,20 @@ namespace DMS.ViewModel.ForgotPasswordVM
         }
         public void Init()
         {
+            _benutzername = string.Empty;
+            _email = string.Empty;
+            _verificationCode = string.Empty;
+            _newPassword = string.Empty;
+            _confirmPassword = string.Empty;
+            _message = string.Empty;
+            _isCodeSent = false;
+            _isCodeVerified = false;
+            _isUsernameErrorVisible = false;
+            _isEmailErrorVisible = false;
+            _isVerificationCodeErrorVisible = false;
+            _isNewPasswordErrorVisible = false;
+            _isConfirmPasswordErrorVisible = false;
+            _passwordsDoNotMatch = false;
 
         }
     }
