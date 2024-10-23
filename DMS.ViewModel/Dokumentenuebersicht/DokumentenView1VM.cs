@@ -76,10 +76,7 @@ namespace DMS.ViewModel.Dokumentenuebersicht
 
         private void AddFile(object obj)
         {
-            // Call service to add file using OpenFileDialog
             _dokumenteService.AddFile(m_currentFolder, m_currentUser);
-
-            // Refresh the FilesCollection after adding the file
             FilesCollection.Clear();
             LoadFiles();
             

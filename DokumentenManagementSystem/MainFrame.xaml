@@ -44,14 +44,13 @@
                                Foreground="White" Cursor="Hand">
                     </TextBlock>
                 </StackPanel>
-                <StackPanel  Margin="15,0,0,0" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="users">
+                <StackPanel  Margin="15,0,0,0" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="users"  Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
 
                     <Button
                         Background="Transparent"
                         Margin="2"
                         Cursor="Hand"
                         Command="{Binding Path=NutzerCommand}"
-                        Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"
                         Width="50">
                         <Image Source="pack://application:,,,/Assets/user-icon.png"
                                Width="50"

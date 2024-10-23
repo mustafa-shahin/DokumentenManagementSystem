@@ -1,11 +1,13 @@
 ﻿using DMS.Service;
 using System.Windows.Input;
 using ViewModel.Interface.ForgotPassword;
+
 namespace DMS.ViewModel.ForgotPasswordVM
 {
     public class ForgotPasswordVM : ViewModelBase, IForgotPasswordVM
     {
         private readonly BenutzerService _benutzerService;
+        private readonly EmailService _emailService;
         private string _benutzername;
         private string _email;
         private string _verificationCode;
@@ -14,7 +16,13 @@ namespace DMS.ViewModel.ForgotPasswordVM
         private string _message;
         private bool _isCodeSent;
         private bool _isCodeVerified;
-        private readonly EmailService _emailService;
+
+        private bool _isUsernameErrorVisible;
+        private bool _isEmailErrorVisible;
+        private bool _isVerificationCodeErrorVisible;
+        private bool _isNewPasswordErrorVisible;
+        private bool _isConfirmPasswordErrorVisible;
+        private bool _passwordsDoNotMatch;
 
         public event EventHandler PasswordForgetWindow;
         public event EventHandler PasswordChangedEvent;
@@ -68,6 +76,42 @@ namespace DMS.ViewModel.ForgotPasswordVM
             set => SetField(ref _message, value);
         }
 
+        public bool IsUsernameErrorVisible
+        {
+            get => _isUsernameErrorVisible;
+            set => SetField(ref _isUsernameErrorVisible, value);
+        }
+
+        public bool IsEmailErrorVisible
+        {
+            get => _isEmailErrorVisible;
+            set => SetField(ref _isEmailErrorVisible, value);
+        }
+
+        public bool IsVerificationCodeErrorVisible
+        {
+            get => _isVerificationCodeErrorVisible;
+            set => SetField(ref _isVerificationCodeErrorVisible, value);
+        }
+
+        public bool IsNewPasswordErrorVisible
+        {
+            get => _isNewPasswordErrorVisible;
+            set => SetField(ref _isNewPasswordErrorVisible, value);
+        }
+
+        public bool IsConfirmPasswordErrorVisible
+        {
+            get => _isConfirmPasswordErrorVisible;
+            set => SetField(ref _isConfirmPasswordErrorVisible, value);
+        }
+
+        public bool PasswordsDoNotMatch
+        {
+            get => _passwordsDoNotMatch;
+            set => SetField(ref _passwordsDoNotMatch, value);
+        }
+
         public ICommand GoBackCommand { get; set; }
         public DelegateCommand SendCodeCommand { get; }
         public DelegateCommand VerifyCodeCommand { get; }
@@ -82,12 +126,15 @@ namespace DMS.ViewModel.ForgotPasswordVM
             ChangePasswordCommand = new DelegateCommand(OnChangePassword);
             GoBackCommand = new DelegateCommand(OnGoBack);
         }
-        public void Init()
-        {
-        }
 
         private async void OnSendCode(object obj)
         {
+            IsUsernameErrorVisible = string.IsNullOrEmpty(Benutzername);
+            IsEmailErrorVisible = string.IsNullOrEmpty(Email);
+
+            if (IsUsernameErrorVisible || IsEmailErrorVisible)
+                return;
+
             if (await _benutzerService.UserExists(Benutzername))
             {
                 bool success = await _emailService.SendVerificationCode(Benutzername, Email);
@@ -96,42 +143,61 @@ namespace DMS.ViewModel.ForgotPasswordVM
                     IsCodeSent = true;
                     Message = "Bestätigungscode wurde gesendet.";
                 }
+                else
+                {
+                    Message = "Fehler beim Senden des Bestätigungscodes.";
+                }
             }
             else
+            {
                 Message = "Benutzername oder E-Mail ist nicht korrekt.";
+            }
         }
+
         private void OnVerifyCode(object obj)
         {
+
+            IsVerificationCodeErrorVisible = string.IsNullOrEmpty(VerificationCode);
+            if (IsVerificationCodeErrorVisible)
+                return;
+
             if (_emailService.VerifyCode(Benutzername, VerificationCode))
             {
                 IsCodeVerified = true;
-                Message = "Bestätigt";
+                Message = "Bestätigt.";
             }
             else
+            {
                 Message = "Ungültiger Code.";
+            }
         }
 
         private async void OnChangePassword(object obj)
         {
-            if (NewPassword == ConfirmPassword)
-            {
-                bool success = await _benutzerService.ChangePassword(Benutzername, NewPassword);
-                if (success)
-                {
-                    Message = "Passwort erfolgreich geändert.";
-                    PasswordChangedEvent?.Invoke(this, EventArgs.Empty);
-                }
 
-                else
-                    Message = "Fehler beim Ändern des Passworts.";
+
+            IsNewPasswordErrorVisible = string.IsNullOrEmpty(NewPassword);
+            IsConfirmPasswordErrorVisible = string.IsNullOrEmpty(ConfirmPassword);
+            PasswordsDoNotMatch = NewPassword != ConfirmPassword;
+
+            if (IsNewPasswordErrorVisible || IsConfirmPasswordErrorVisible || PasswordsDoNotMatch)
+                return;
+
+            bool success = await _benutzerService.ChangePassword(Benutzername, NewPassword);
+            if (success)
+            {
+                Message = "Passwort erfolgreich geändert.";
+                PasswordChangedEvent?.Invoke(this, EventArgs.Empty);
             }
-            else
-                Message = "Passwörter stimmen nicht überein.";
         }
 
         private void OnGoBack(object obj)
         {
             GoBackEvent?.Invoke(this, EventArgs.Empty);
+        }
+        public void Init()
+        {
+
         }
     }
 }
