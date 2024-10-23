@@ -203,7 +203,6 @@
                                             </Style>
                                         </TextBox.Style>
                                     </TextBox>
-
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -211,7 +210,5 @@
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
-     
     </Grid>
-
 </UserControl>

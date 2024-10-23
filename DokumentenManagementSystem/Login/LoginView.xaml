@@ -113,7 +113,7 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Margin="2"
-                            HorizontalAlignment="left"/>
+                            HorizontalAlignment="left" Width="175"/>
 
                     <TextBlock Grid.Row="4"
                             Grid.Column="0"
