@@ -125,6 +125,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
             VerifyCodeCommand = new DelegateCommand(OnVerifyCode);
             ChangePasswordCommand = new DelegateCommand(OnChangePassword);
             GoBackCommand = new DelegateCommand(OnGoBack);
+            Init();
         }
 
         private async void OnSendCode(object obj)
@@ -135,23 +136,15 @@ namespace DMS.ViewModel.ForgotPasswordVM
             if (IsUsernameErrorVisible || IsEmailErrorVisible)
                 return;
 
-            if (await _benutzerService.UserExists(Benutzername))
-            {
-                bool success = await _emailService.SendVerificationCode(Benutzername, Email);
-                if (success)
-                {
-                    IsCodeSent = true;
-                    Message = "Bestätigungscode wurde gesendet.";
-                }
-                else
-                {
-                    Message = "Fehler beim Senden des Bestätigungscodes.";
-                }
-            }
-            else
+            if (!await _benutzerService.UserExists(Benutzername))
             {
                 Message = "Benutzername oder E-Mail ist nicht korrekt.";
+                return;
             }
+            bool success = await _emailService.SendVerificationCode(Benutzername, Email);
+            IsCodeSent = success;
+            Message = success ? "Bestätigungscode wurde gesendet." : "Fehler beim Senden des Bestätigungscodes.";
+
         }
 
         private void OnVerifyCode(object obj)
@@ -161,21 +154,12 @@ namespace DMS.ViewModel.ForgotPasswordVM
             if (IsVerificationCodeErrorVisible)
                 return;
 
-            if (_emailService.VerifyCode(Benutzername, VerificationCode))
-            {
-                IsCodeVerified = true;
-                Message = "Bestätigt.";
-            }
-            else
-            {
-                Message = "Ungültiger Code.";
-            }
+            IsCodeVerified = _emailService.VerifyCode(Benutzername, VerificationCode);
+            Message = IsCodeVerified ? "Bestätigt." : "Ungültiger Code.";
         }
 
         private async void OnChangePassword(object obj)
         {
-
-
             IsNewPasswordErrorVisible = string.IsNullOrEmpty(NewPassword);
             IsConfirmPasswordErrorVisible = string.IsNullOrEmpty(ConfirmPassword);
             PasswordsDoNotMatch = NewPassword != ConfirmPassword;
