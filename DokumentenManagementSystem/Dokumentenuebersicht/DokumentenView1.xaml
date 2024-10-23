@@ -288,7 +288,11 @@
                                     Margin="2">
                                 <Image Source="pack://application:,,,/Assets/back-icon.png"
                                        Width="30"
-                                       Height="30"/>
+                                       Height="30">
+                                    <Image.LayoutTransform>
+                                        <RotateTransform Angle="180" />
+                                    </Image.LayoutTransform>
+                                </Image>
                             </Button>
                         </StackPanel>
 
