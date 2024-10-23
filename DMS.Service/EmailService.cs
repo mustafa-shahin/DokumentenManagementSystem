@@ -25,7 +25,7 @@ namespace DMS.Service
                    "Bitte verwenden Sie diesen Code, um Ihr Passwort zurückzusetzen.\n\n" +
                    "Wenn Sie diese Anfrage nicht gestellt haben, ignorieren Sie bitte diese E-Mail.\n\n" +
                    "Ihr Support-Team";
-            return SendEmail(email, "Passwort-Wiederherstellungscode", emailBody);
+            return await SendEmail(email, "Passwort-Wiederherstellungscode", emailBody);
         }
 
         public bool VerifyCode(string username, string code)
@@ -36,7 +36,7 @@ namespace DMS.Service
             return false;
         }
 
-        private static bool SendEmail(string toEmail, string subject, string body)
+        private static async Task<bool> SendEmail(string toEmail, string subject, string body)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace DMS.Service
                 var configsmtpFromAddress = ConfigurationManager.AppSettings["SMTPFromAddress"];
                 var configsmtpFromDisplayName = ConfigurationManager.AppSettings["SMTPFromDisplayName"] ?? "Support";
 
-                if(string.IsNullOrEmpty(configSmtpUser) && string.IsNullOrEmpty(configSmtpPassword) && string.IsNullOrEmpty(configsmtpFromAddress))
+                if (string.IsNullOrEmpty(configSmtpUser) && string.IsNullOrEmpty(configSmtpPassword) && string.IsNullOrEmpty(configsmtpFromAddress))
                     return false;
 
                 using MailMessage message = new();
@@ -53,6 +53,7 @@ namespace DMS.Service
                 message.To.Add(new MailAddress(toEmail));
                 message.Subject = subject;
                 message.Body = body;
+
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
@@ -60,8 +61,7 @@ namespace DMS.Service
                     EnableSsl = true
                 };
 
-                // Send the email
-                smtpClient.Send(message);
+                await smtpClient.SendMailAsync(message);
 
                 return true;
             }
@@ -70,5 +70,6 @@ namespace DMS.Service
                 return false;
             }
         }
+
     }
 }
