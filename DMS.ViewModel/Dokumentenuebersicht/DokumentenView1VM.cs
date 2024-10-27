@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DMS.Model;
 using DMS.Service;
+using Microsoft.Win32;
 namespace DMS.ViewModel.Dokumentenuebersicht
 {
     public class DokumentenView1VM : ViewModelBase, IDokumentenView1VM
@@ -74,9 +75,9 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             }
         }
 
-        private void AddFile(object obj)
+        private  void AddFile(object obj)
         {
-            _dokumenteService.AddFile(m_currentFolder, m_currentUser);
+            _dokumenteService.AddFile(FilePath, m_currentFolder, m_currentUser);
             FilesCollection.Clear();
             LoadFiles();
             
@@ -109,6 +110,14 @@ namespace DMS.ViewModel.Dokumentenuebersicht
                 EditFile?.Invoke(file);
             }
             SaveFile(obj);
+        }
+        public string FilePath
+        {
+            get
+            {
+                var openFileDialog = new OpenFileDialog();
+                return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : string.Empty;
+            }
         }
     }
 }

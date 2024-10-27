@@ -16,19 +16,8 @@ namespace DMS.Service
             _context = context;
         }
 
-        public string GetFilePath()
+        public void AddFile(string filePath, Ordner currentFolder, Benutzer currentUser)
         {
-            var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-                return openFileDialog.FileName;
-            else
-                return string.Empty;
-        }
-
-        public void AddFile(Ordner currentFolder, Benutzer currentUser)
-        {
-            string filePath = GetFilePath();
-
             if (!string.IsNullOrEmpty(filePath))
             {
                 var fileContent = File.ReadAllBytes(filePath);
@@ -66,6 +55,7 @@ namespace DMS.Service
                 _context.SaveChanges();
             }
         }
+
 
 
         public void UpdateFile(Dokument dokument)

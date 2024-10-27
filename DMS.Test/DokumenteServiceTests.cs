@@ -16,16 +16,12 @@ namespace DMS.Tests
                 .Options;
             return new DataContext(options);
         }
-
         [Fact]
         public async Task DokumenteService_ShouldAddFileSuccessfully()
         {
             // Arrange
             var context = GetCreateTestDbContext();
-
-            // Mock DokumenteService and override GetFilePath to return a mock file path
-            var serviceMock = new Mock<DokumenteService>(context);
-            serviceMock.Setup(s => s.GetFilePath()).Returns("testfile.txt");
+            var service = new DokumenteService(context);
 
             var folder = new Ordner { Id = 1, Name = "TestFolder", SearchTags = [] };
             var user = new Benutzer { Id = 1, Name = "TestUser", Passwort = "12345678" };
@@ -35,19 +31,29 @@ namespace DMS.Tests
             await context.Benutzer.AddAsync(user);
             await context.SaveChangesAsync();
 
-            // Mock the file content
+            // Mock the file path and content
+            var filePath = "testfile.txt";
             var fileContent = new byte[] { 0x01, 0x02, 0x03 };
-            File.WriteAllBytes("testfile.txt", fileContent);
+            File.WriteAllBytes(filePath, fileContent);
 
-            // Act
-            serviceMock.Object.AddFile(folder, user);
+            try
+            {
+                // Act
+                service.AddFile(filePath, folder, user);
 
-            // Assert
-            var createdFile = await context.Dokumente.FirstOrDefaultAsync(d => d.Name == "testfile.txt");
-            Assert.NotNull(createdFile);
-            Assert.Equal("testfile.txt", createdFile.Name);
-            Assert.Equal(fileContent, createdFile.Content);
+                // Assert
+                var createdFile = await context.Dokumente.FirstOrDefaultAsync(d => d.Name == "testfile.txt");
+                Assert.NotNull(createdFile);
+                Assert.Equal("testfile.txt", createdFile.Name);
+                Assert.Equal(fileContent, createdFile.Content);
+            }
+            finally
+            {
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+            }
         }
+
 
 
         [Fact]
