@@ -76,30 +76,6 @@ namespace DMS.Service
         .ToListAsync();
         }
 
-        public void DownloadFile(Dokument dokument, out bool openDialog)
-        {
-            var dialog = false;
-            var saveFileDialog = new SaveFileDialog
-            {
-                FileName = dokument.Name
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                dialog = true;
-                try
-                {
-                    File.WriteAllBytes(saveFileDialog.FileName, dokument.Content);
-
-                    FilePath = saveFileDialog.FileName;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Fehler beim Herunterladen der Datei: " + ex.Message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            openDialog = dialog;
-        }
         private bool Haschanges(Dokument updatedDokument)
         {
             var existingDokument = _context.Dokumente.AsNoTracking().FirstOrDefault(d => d.Id == updatedDokument.Id);

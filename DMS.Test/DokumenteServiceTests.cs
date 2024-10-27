@@ -127,40 +127,6 @@ namespace DMS.Tests
             Assert.Equal("testfile.txt", files[0].Name);
         }
 
-        //[Fact]
-        //public void DokumenteService_ShouldDownloadFileSuccessfully()
-        //{
-        //    // Arrange
-        //    var context = GetCreateTestDbContext();
-        //    var service = new DokumenteService(context);
-
-        //    var dokument = new Dokument
-        //    {
-        //        Id = 1,
-        //        Name = "testfile.txt",
-        //        Description = "Initial description",
-        //        Content = [0x01, 0x02],
-        //        Version = "1.0"
-        //    };
-
-        //    context.Dokumente.Add(dokument);
-        //    context.SaveChanges();
-
-        //    // Mock SaveFileDialog
-        //    var saveFileDialogMock = new Mock<SaveFileDialog>();
-        //    saveFileDialogMock.Setup(x => x.ShowDialog()).Returns(true);
-        //    saveFileDialogMock.Setup(x => x.FileName).Returns("downloaded_testfile.txt");
-
-        //    // Act
-        //    service.DownloadFile(dokument, out var openDialog);
-
-        //    // Assert
-        //    Assert.True(openDialog);
-        //    Assert.True(File.Exists("downloaded_testfile.txt"));
-        //    var downloadedContent = File.ReadAllBytes("downloaded_testfile.txt");
-        //    Assert.Equal(dokument.Content, downloadedContent);
-        //}
-
         [Fact]
         public async Task DokumenteService_ShouldGetAllDocumentsSuccessfully()
         {

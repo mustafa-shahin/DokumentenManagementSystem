@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
 using DMS.Model;
 using DMS.Service;
@@ -77,7 +77,9 @@ namespace DMS.ViewModel.Dokumentenuebersicht
 
         private  void AddFile(object obj)
         {
-            _dokumenteService.AddFile(FilePath, m_currentFolder, m_currentUser);
+            var openFileDialog = new OpenFileDialog();
+            var path = openFileDialog.ShowDialog() == true ? openFileDialog.FileName : string.Empty;
+            _dokumenteService.AddFile(path, m_currentFolder, m_currentUser);
             FilesCollection.Clear();
             LoadFiles();
             
@@ -91,16 +93,6 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             }
         }
 
-        private void DownloadFile(object obj)
-        {
-            DownloadDialog = true;
-            if (obj is Dokument file)
-            {
-                _dokumenteService.DownloadFile(file, out bool openDialog);
-                if(openDialog)
-                    FileDownloaded?.Invoke(_dokumenteService.FilePath);
-            }
-        }
         private void OnEditFile(object obj)
         {
             IsEditingFile = true;
@@ -111,12 +103,29 @@ namespace DMS.ViewModel.Dokumentenuebersicht
             }
             SaveFile(obj);
         }
-        public string FilePath
+        private void DownloadFile(object obj)
         {
-            get
+            DownloadDialog = true;
+
+            if (obj is Dokument file)
             {
-                var openFileDialog = new OpenFileDialog();
-                return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : string.Empty;
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = file.Name
+                };
+                string savePath = saveFileDialog.ShowDialog() == true ? saveFileDialog.FileName : string.Empty;
+                if (!string.IsNullOrEmpty(savePath))
+                {
+                    try
+                    {
+                        File.WriteAllBytes(savePath, file.Content);
+                        FileDownloaded?.Invoke(savePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Fehler beim Herunterladen der Datei: " + ex.Message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
         }
     }
