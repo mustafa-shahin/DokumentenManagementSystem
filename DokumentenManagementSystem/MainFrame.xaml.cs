@@ -1,4 +1,5 @@
 ﻿using DMS.ViewModel;
+using DokumentenManagementSystem.UI_Behavior;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -56,6 +57,16 @@ namespace DokumentenManagementSystem
                     }
                 }
             }
+        }
+
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
         }
     }
 }

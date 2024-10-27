@@ -1,6 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 using DMS.ViewModel.ForgotPasswordVM;
+using DokumentenManagementSystem.UI_Behavior;
+using System.Windows.Input;
 
 namespace DokumentenManagementSystem
 {
@@ -33,6 +35,15 @@ namespace DokumentenManagementSystem
                     viewModel.ConfirmPassword = passwordBox.Password;
                 }
             }
+        }
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
         }
     }
 }

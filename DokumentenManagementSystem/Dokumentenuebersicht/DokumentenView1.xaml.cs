@@ -2,6 +2,7 @@
 using DMS.ViewModel;
 using DMS.ViewModel.Dokumentenuebersicht;
 using DokumentenManagementSystem.Dokumentenuebersicht;
+using DokumentenManagementSystem.UI_Behavior;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -157,6 +158,15 @@ namespace DMS.View.Dokumentenuebersicht
 
             _viewModel.IsEditingFile = false;
 
+        }
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
         }
 
     }

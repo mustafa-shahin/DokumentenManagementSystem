@@ -1,5 +1,6 @@
 ﻿using DMS.ViewModel.Dokumentenuebersicht;
 using DMS.ViewModel.Nutzerverwaltung;
+using DokumentenManagementSystem.UI_Behavior;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,15 @@ namespace DMS.View.Nutzerverwaltung
                     viewModel.Init(viewModel.CurrentUser);
                 }
             }
+        }
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
         }
     }
 }

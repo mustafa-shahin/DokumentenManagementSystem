@@ -29,6 +29,8 @@
                        Orientation="Horizontal">
                 <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="folders">
                     <Button Background="Transparent"
+                        MouseEnter="Button_MouseEnter"
+                        MouseLeave="Button_MouseLeave"
                             Margin="2"
                             Command="{Binding Path=OrdnerCommand}"
                             Cursor="Hand"
@@ -47,6 +49,8 @@
                 <StackPanel  Margin="15,0,0,0" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="users"  Visibility="{Binding Path=CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
 
                     <Button
+                        MouseEnter="Button_MouseEnter"
+                        MouseLeave="Button_MouseLeave"
                         Background="Transparent"
                         Margin="2"
                         Cursor="Hand"
@@ -68,6 +72,8 @@
                        Orientation="Horizontal"
                        VerticalAlignment="Center">
                 <Button Grid.Column="2"
+                        MouseEnter="Button_MouseEnter"
+                        MouseLeave="Button_MouseLeave"
                         Background="Transparent"
                         Margin="2"
                         Command="{Binding Path=SearchCommand}"
@@ -88,18 +94,25 @@
             </WrapPanel>
             <StackPanel Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
                 <StackPanel  Margin="10" VerticalAlignment="Center" >
-                    <Image Width="50" Height="50">
-                        <Image.Style>
-                            <Style TargetType="Image">
-                                <Setter Property="Source" Value="pack://application:,,,/Assets/user-icon.png" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=CurrentUser.IsAdmin}" Value="True">
-                                        <Setter Property="Source" Value="pack://application:,,,/Assets/admin-icon.png" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Image.Style>
-                    </Image>
+                    <Button
+                        Cursor="Hand"
+                        Background="Transparent"
+                        MouseEnter="Button_MouseEnter"
+                        MouseLeave="Button_MouseLeave"
+                        Width="50">
+                        <Image Width="50" Height="50">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="pack://application:,,,/Assets/user-icon.png" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=CurrentUser.IsAdmin}" Value="True">
+                                            <Setter Property="Source" Value="pack://application:,,,/Assets/admin-icon.png" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Button>
                     <TextBlock Text="{Binding Path=CurrentUser.Name}" HorizontalAlignment="Center" FontSize="10" Foreground="White" Cursor="Hand" ></TextBlock>
                 </StackPanel>
                 <StackPanel 
@@ -108,6 +121,8 @@
                         Orientation="Vertical"
                         MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" x:Name="logout">
                     <Button
+                    MouseEnter="Button_MouseEnter"
+                    MouseLeave="Button_MouseLeave"
                     Command="{Binding Path=LogoutCommand}"
                     Background="Transparent"
                     HorizontalAlignment="Right"

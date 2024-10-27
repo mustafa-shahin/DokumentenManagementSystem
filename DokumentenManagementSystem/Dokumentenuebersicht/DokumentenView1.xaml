@@ -142,6 +142,8 @@
                        Foreground="White"
                        HorizontalAlignment="Center"/>
             <Button Background="Transparent"
+                    MouseEnter="Button_MouseEnter"
+                    MouseLeave="Button_MouseLeave"
                     Width="70"
                     Height="70"
                     Command="{Binding AddFileCommand}"
@@ -229,6 +231,8 @@
                                     <StackPanel Orientation="Horizontal"
                                                 VerticalAlignment="Center">
                                         <Button Command="{Binding DataContext.EditFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                MouseEnter="Button_MouseEnter"
+                                                MouseLeave="Button_MouseLeave"
                                                 CommandParameter="{Binding}"
                                                 Margin="5,0"
                                                 Padding="5,2"
@@ -240,6 +244,8 @@
                                                    Height="40"/>
                                         </Button>
                                         <Button  Command="{Binding DataContext.DownloadFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                 MouseEnter="Button_MouseEnter"
+                                                 MouseLeave="Button_MouseLeave"
                                                  CommandParameter="{Binding}"
                                                  Margin="5,0"
                                                  Padding="5,2"

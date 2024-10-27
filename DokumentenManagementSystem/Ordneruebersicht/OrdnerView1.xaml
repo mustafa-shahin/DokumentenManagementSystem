@@ -130,12 +130,14 @@
             <StackPanel>
                 <StackPanel MouseDown="StackPanel_MouseDown" Cursor="Hand">
                     <Button
-   Width="200"
-   Height="75"
-   Margin="2"
-   Background="Transparent"
-   Command="{Binding Path=CreateFolderCommand}"
-   Style="{StaticResource ButtonStyle}">
+                    MouseEnter="Button_MouseEnter"
+                    MouseLeave="Button_MouseLeave"
+                    Width="200"
+                    Height="75"
+                    Margin="2"
+                    Background="Transparent"
+                    Command="{Binding Path=CreateFolderCommand}"
+                    Style="{StaticResource ButtonStyle}">
                         <Image Source="pack://application:,,,/Assets/add-folder-icon.png"
                           Width="50"
                           Height="50"/>
@@ -160,9 +162,11 @@
                             <Border Margin="5"
                    Background="Transparent"
                    CornerRadius="5">
-                                <StackPanel HorizontalAlignment="Center"
+                                <StackPanel HorizontalAlignment="Center" Height="100"
                            VerticalAlignment="Center">
                                     <Image Source="pack://application:,,,/Assets/folder-icon.png"
+                                     MouseEnter="Button_MouseEnter"
+                                     MouseLeave="Button_MouseLeave"
                           Width="50"
                           Height="50"
                           MouseLeftButtonDown="FolderIcon_MouseLeftButtonDown" Cursor="Hand"/>

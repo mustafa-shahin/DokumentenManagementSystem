@@ -212,6 +212,8 @@
                                             Grid.Row="1"
                                             Grid.Column="1">
                                     <Button Width="60"
+                                            MouseEnter="Button_MouseEnter"
+                                            MouseLeave="Button_MouseLeave"
                                             Background="Transparent"
                                             HorizontalAlignment="Right"
                                             Command="{Binding DataContext.SaveBenutzerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"

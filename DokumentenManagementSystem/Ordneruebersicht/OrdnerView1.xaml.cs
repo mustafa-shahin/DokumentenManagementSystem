@@ -1,5 +1,6 @@
 ﻿using DMS.Model;
 using DMS.ViewModel.Ordneruebersicht;
+using DokumentenManagementSystem.UI_Behavior;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -142,6 +143,14 @@ namespace DMS.View.Ordneruebersicht
             {
                 viewModel.CreateFolderCommand.Execute(null);
             }
+        }
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
+        }
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
         }
     }
 }
