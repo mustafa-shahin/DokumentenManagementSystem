@@ -25,8 +25,8 @@ namespace DMS.Service
                 {
                     Name = username,
                     Passwort = password,
-                    IsActive = false,
-                    IsAdmin = false
+                    IsActive = !_context.Benutzer.Any(),
+                    IsAdmin = !_context.Benutzer.Any()
                 };
 
                 await _context.Benutzer.AddAsync(newUser);
