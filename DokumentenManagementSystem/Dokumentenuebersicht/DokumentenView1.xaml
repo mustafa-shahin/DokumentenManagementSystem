@@ -155,7 +155,7 @@
                        Width="70"
                        Height="70"/>
             </Button>
-            <TextBlock Text="Hocladen"
+            <TextBlock Text="Hochladen"
                        FontSize="15"
                        Foreground="White"
                        HorizontalAlignment="Center"
