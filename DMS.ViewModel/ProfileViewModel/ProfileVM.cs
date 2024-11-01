@@ -2,6 +2,7 @@
 using DMS.Service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace DMS.ViewModel.ProfileVM
         private bool _passwordsDoNotMatch;
         private bool _wrongPassword;
         private bool _passwordchanged;
+        private bool _passwordLength;
         public string Benutzername
         {
             get => _benutzer.Name;
@@ -59,6 +61,11 @@ namespace DMS.ViewModel.ProfileVM
             get => _passwordchanged;
             set => SetField(ref _passwordchanged, value);
         }
+        public bool PasswordLength
+        {
+            get => _passwordLength;
+            set => SetField(ref _passwordLength, value);
+        }
 
 
         public DelegateCommand ChangePasswordCommand { get; }
@@ -78,10 +85,17 @@ namespace DMS.ViewModel.ProfileVM
             PasswordsDoNotMatch = NewPassword != ConfirmPassword;
             if (NewPassword != ConfirmPassword)
                 return;
+            var validationResults = new List<ValidationResult>();
+            var context = new ValidationContext(_benutzer);
 
-            var success = await _benutzerService.VerifyAndUpdatePassword(_benutzer.Id, NewPassword);
-            WrongPassword = !success;
-            PasswordChanged = success;
+            PasswordLength = Validator.TryValidateObject(_benutzer, context, validationResults, validateAllProperties: true);
+            if (PasswordLength)
+            {
+                var success = await _benutzerService.VerifyAndUpdatePassword(_benutzer.Id, NewPassword);
+                WrongPassword = !success;
+                PasswordChanged = success;
+            }
+            PasswordLength = true;
         }
         private void OnGoBack(object obj)
         {
@@ -92,6 +106,7 @@ namespace DMS.ViewModel.ProfileVM
             _benutzer = benutzer;
             WrongPassword = false;
             PasswordChanged = false;
+            PasswordLength = false;
         }
     }
 }
