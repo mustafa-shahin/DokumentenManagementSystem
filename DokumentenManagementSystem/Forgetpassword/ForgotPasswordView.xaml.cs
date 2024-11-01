@@ -17,8 +17,7 @@ namespace DokumentenManagementSystem
         {
             if (DataContext is ForgotPasswordVM viewModel)
             {
-                var passwordBox = sender as PasswordBox;
-                if (passwordBox != null)
+                if (sender is PasswordBox passwordBox)
                 {
                     viewModel.NewPassword = passwordBox.Password;
                 }
@@ -29,8 +28,7 @@ namespace DokumentenManagementSystem
         {
             if (DataContext is ForgotPasswordVM viewModel)
             {
-                var passwordBox = sender as PasswordBox;
-                if (passwordBox != null)
+                if (sender is PasswordBox passwordBox)
                 {
                     viewModel.ConfirmPassword = passwordBox.Password;
                 }

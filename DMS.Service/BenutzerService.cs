@@ -88,5 +88,18 @@ namespace DMS.Service
             
            
         }
+        public async Task<bool> VerifyAndUpdatePassword(int userId, string newPassword)
+        {
+            var user = await _context.Benutzer.FirstOrDefaultAsync(b => b.Id == userId);
+
+            if (user == null)
+                return false;
+
+            user.Passwort = newPassword;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
     }
 }

@@ -16,7 +16,9 @@
     xmlns:forgotPasswordVM="clr-namespace:DMS.ViewModel.ForgotPasswordVM;assembly=DMS.ViewModel"
     xmlns:forgotPasswordView="clr-namespace:DokumentenManagementSystem"
     xmlns:sucheView="clr-namespace:DokumentenManagementSystem.Suche"
-   xmlns:sucheVM="clr-namespace:DMS.ViewModel.SucheViewModel;assembly=DMS.ViewModel">
+    xmlns:sucheVM="clr-namespace:DMS.ViewModel.SucheViewModel;assembly=DMS.ViewModel"
+    xmlns:profileVM="clr-namespace:DMS.ViewModel.ProfileVM;assembly=DMS.ViewModel"
+    xmlns:profileView="clr-namespace:DokumentenManagementSystem.Profile">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -59,6 +61,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type sucheVM:SucheViewModel}">
                 <sucheView:SucheView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type profileVM:ProfileVM}">
+                <profileView:ProfileView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

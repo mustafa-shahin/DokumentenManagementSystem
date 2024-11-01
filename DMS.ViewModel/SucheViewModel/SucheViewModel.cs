@@ -6,7 +6,7 @@ using ViewModel.Interface.Suche;
 
 namespace DMS.ViewModel.SucheViewModel
 {
-    public class SucheViewModel : ViewModelBase, ISucheViewModel
+    public class SucheViewModel : ViewModelBase, ISucheViewVM
     {
         private readonly SearchService _searchService;
         private Benutzer _currentUser;

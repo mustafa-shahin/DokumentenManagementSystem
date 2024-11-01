@@ -3,7 +3,7 @@ using DMS.Model;
 
 namespace ViewModel.Interface.Suche
 {
-    public interface ISucheViewModel : IViewModelBase
+    public interface ISucheViewVM : IViewModelBase
     {
         event EventHandler<Ordner> FolderOpened;
         void Init(Benutzer currentUser);

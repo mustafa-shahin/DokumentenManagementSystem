@@ -112,7 +112,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
             set => SetField(ref _passwordsDoNotMatch, value);
         }
 
-        public ICommand GoBackCommand { get; set; }
+        public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand SendCodeCommand { get; }
         public DelegateCommand VerifyCodeCommand { get; }
         public DelegateCommand ChangePasswordCommand { get; }

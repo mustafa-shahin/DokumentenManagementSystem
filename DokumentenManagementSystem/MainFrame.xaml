@@ -99,6 +99,7 @@
                         Background="Transparent"
                         MouseEnter="Button_MouseEnter"
                         MouseLeave="Button_MouseLeave"
+                         Command="{Binding Path=ProfileCommand}"
                         Width="50">
                         <Image Width="50" Height="50">
                             <Image.Style>

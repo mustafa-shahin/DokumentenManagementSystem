@@ -2,7 +2,9 @@
 using DMS.ViewModel.Dokumentenuebersicht;
 using DMS.ViewModel.Nutzerverwaltung;
 using DMS.ViewModel.Ordneruebersicht;
+using DMS.ViewModel.ProfileVM;
 using ViewModel.Interface;
+using ViewModel.Interface.Profile;
 using ViewModel.Interface.Suche;
 
 namespace DMS.ViewModel;
@@ -12,9 +14,10 @@ public class MainFrameVM : ViewModelBase, IMainFrameVM
     private Benutzer m_currentUser;
     private IOrdnerFrameVM m_ordnerFrameVM;
     private INutzerFrameVM m_nutzerFrameVM;
-    private ISucheViewModel m_sucheViewModel;
+    private ISucheViewVM m_sucheViewModel;
     private IDokumentenFrameVM m_dokumentenFrameVM;
     private IViewModelBase m_currentView;
+    private IProfileViewVM m_profileVM;
     private string m_searchQuery;
 
     public string SearchQuery
@@ -55,21 +58,24 @@ public class MainFrameVM : ViewModelBase, IMainFrameVM
     public DelegateCommand LogoutCommand { get; set; }
     public DelegateCommand SearchCommand { get; set; }
     public event EventHandler? LogoutEvent;
+    public DelegateCommand ProfileCommand { get; set; }
 
-    public MainFrameVM(IOrdnerFrameVM ordnerFrameVM, INutzerFrameVM nutzerFrameVM, ISucheViewModel sucheViewModel, IDokumentenFrameVM dokumentenFrameVM)
+    public MainFrameVM(IOrdnerFrameVM ordnerFrameVM, INutzerFrameVM nutzerFrameVM, ISucheViewVM sucheViewModel, IDokumentenFrameVM dokumentenFrameVM, IProfileViewVM profileViewVM)
     {
         m_ordnerFrameVM = ordnerFrameVM;
         m_nutzerFrameVM = nutzerFrameVM;
         m_sucheViewModel = sucheViewModel;
         m_dokumentenFrameVM = dokumentenFrameVM;
+        m_profileVM = profileViewVM;
 
         OrdnerCommand = new DelegateCommand(OnOrdner);
         NutzerCommand = new DelegateCommand(OnNutzer);
         LogoutCommand = new DelegateCommand(OnLogout);
         SearchCommand = new DelegateCommand(OnSearch);
-
+        ProfileCommand = new DelegateCommand(OnProfile);
         m_sucheViewModel.FolderOpened += OnFolderOpened;
         m_sucheViewModel.BenutzerOpened += OnBenutzerOpened;
+        
     }
 
     public void Init(Benutzer currentUser)
@@ -116,5 +122,17 @@ public class MainFrameVM : ViewModelBase, IMainFrameVM
     {
         m_nutzerFrameVM.Init(CurrentUser);
         CurrentView = m_nutzerFrameVM;     
+    }
+
+    private void OnProfile(object o)
+    {
+        m_profileVM.Init(CurrentUser);
+        CurrentView = m_profileVM;
+        m_profileVM.GoBack += OnGoback;
+    }
+    private void OnGoback(object sender, EventArgs e)
+    {
+        CurrentView = this;
+        this.Init(CurrentUser);
     }
 }
