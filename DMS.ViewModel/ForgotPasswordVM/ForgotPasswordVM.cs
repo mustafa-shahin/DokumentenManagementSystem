@@ -1,4 +1,6 @@
-﻿using DMS.Service;
+﻿using DMS.Model;
+using DMS.Service;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 using ViewModel.Interface.ForgotPassword;
 
@@ -23,7 +25,7 @@ namespace DMS.ViewModel.ForgotPasswordVM
         private bool _isNewPasswordErrorVisible;
         private bool _isConfirmPasswordErrorVisible;
         private bool _passwordsDoNotMatch;
-
+        private bool _isShortPassword;
         public event EventHandler PasswordForgetWindow;
         public event EventHandler PasswordChangedEvent;
         public event EventHandler GoBackEvent;
@@ -112,6 +114,12 @@ namespace DMS.ViewModel.ForgotPasswordVM
             set => SetField(ref _passwordsDoNotMatch, value);
         }
 
+        public bool IsShortPassword
+        {
+            get => _isShortPassword;
+            set => SetField(ref _isShortPassword, value);
+        }
+
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand SendCodeCommand { get; }
         public DelegateCommand VerifyCodeCommand { get; }
@@ -160,6 +168,13 @@ namespace DMS.ViewModel.ForgotPasswordVM
 
         private async void OnChangePassword(object obj)
         {
+            IsShortPassword = NewPassword.Length < 8;
+          
+            if (IsShortPassword)
+            {
+                Message = "Das Passwort muss mindestens 8 Zeichen lang sein.";
+                return;
+            }
             IsNewPasswordErrorVisible = string.IsNullOrEmpty(NewPassword);
             IsConfirmPasswordErrorVisible = string.IsNullOrEmpty(ConfirmPassword);
             PasswordsDoNotMatch = NewPassword != ConfirmPassword;
