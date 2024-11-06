@@ -2,8 +2,6 @@
 using DMS.Model;
 using DMS.Service;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-
 
 namespace DMS.Tests
 {

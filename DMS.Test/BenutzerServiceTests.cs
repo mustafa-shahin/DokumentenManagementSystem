@@ -1,6 +1,5 @@
 using DMS.DataAccess;
 using DMS.Service;
-using DMS.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace DMS.Tests

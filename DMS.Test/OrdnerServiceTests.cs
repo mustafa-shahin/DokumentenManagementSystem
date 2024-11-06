@@ -1,10 +1,6 @@
 ﻿using DMS.DataAccess;
-using DMS.Model;
 using DMS.Service;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace DMS.Tests
 {
