@@ -3,7 +3,6 @@ using DMS.Service;
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Windows;
-using DMS.Service;
 using System.IO;
 using DMS.DataAccess;
 namespace DokumentenManagementSystem.Dokumentenuebersicht
@@ -14,7 +13,7 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
     public partial class EditFileDialog : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private  DokumenteService _dokumenteService;
+        private readonly DokumenteService _dokumenteService;
         private string _fileDescription;
         private Dokument file;
         public string FileDescription
@@ -41,7 +40,7 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public EditFileDialog(Dokument file, DokumenteService dokumenteService = null)
+        public EditFileDialog(Dokument file, DokumenteService dokumenteService)
         {
             InitializeComponent();
             _dokumenteService = dokumenteService;
@@ -58,7 +57,6 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
         }
         private void FileOverride(Dokument file)
         {
-
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "All Files (*.*)|*.*",
@@ -69,31 +67,33 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
 
             if (!string.IsNullOrEmpty(filePath))
             {
-                // Read the new file content
                 var newFileContent = File.ReadAllBytes(filePath);
 
                 if (double.TryParse(file.Version, out double currentVersion))
                 {
-                    file.Version = (currentVersion + 1).ToString("F1"); 
+                    file.Version = (currentVersion + 1).ToString("F1");
                 }
                 else
                 {
-                    file.Version = "1.0"; 
+                    file.Version = "1.0";
                 }
 
                 file.Content = newFileContent;
 
-                file.Description = $"Updated on {DateTime.Now}";
+                file.Name = Path.GetFileName(filePath);
 
                 _dokumenteService.UpdateFile(file);
+                
 
-                MessageBox.Show("File has been successfully overridden and version updated!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Die Datei wurde erfolgreich überschrieben und die Version aktualisiert!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
             }
             else
             {
-                MessageBox.Show("No file selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Keine Datei wurde ausgewählt.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void OverrideFile_Click(object sender, RoutedEventArgs e)
         {

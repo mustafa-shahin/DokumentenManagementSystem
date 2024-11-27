@@ -281,7 +281,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Datei Information"
+                            <TextBlock Text="Datei Informationen"
                                        FontSize="18"
                                        FontWeight="Bold"
                                        Foreground="White"

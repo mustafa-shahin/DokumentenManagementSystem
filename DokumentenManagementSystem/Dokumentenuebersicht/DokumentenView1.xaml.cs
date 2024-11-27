@@ -145,7 +145,7 @@ namespace DMS.View.Dokumentenuebersicht
 
             _viewModel.IsEditingFile = true;
 
-            var editDialog = new EditFileDialog(file);
+            var editDialog = new EditFileDialog(file, _viewModel.DokumenteService);
             var result = editDialog.ShowDialog();
 
             if (result == true)
