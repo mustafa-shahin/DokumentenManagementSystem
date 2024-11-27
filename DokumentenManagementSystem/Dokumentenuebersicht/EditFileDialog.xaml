@@ -14,25 +14,35 @@
                 <CheckBox x:Name="VisibilityCheckBox" Margin="0,0,0,0" VerticalAlignment="Center"  IsChecked="{Binding IsVisibleAllUser}"/>
                 <TextBlock Text="Für alle sichtbar" VerticalAlignment="Center"></TextBlock>
             </StackPanel>
-            <WrapPanel HorizontalAlignment="Right" >
+            <WrapPanel HorizontalAlignment="Right">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10,0,0" MouseLeftButtonDown="SaveButton_Click" Cursor="Hand">
-                    <Button  Width="75" Margin="0,0,10,0" IsDefault="True" Click="SaveButton_Click" Background="Transparent" Cursor="Hand">
+                    <Button  Width="75" 
+                             Margin="0,0,10,0" 
+                             IsDefault="True" 
+                             Click="OverrideFile_Click" 
+                             Background="Transparent" 
+                             Cursor="Hand"
+                             MouseLeave="Button_MouseLeave"
+                             MouseEnter="Button_MouseLeave">
+                        <Image Source="pack://application:,,,/Assets/update-file-icon.png"
+                                       Width="50"
+                                       Height="50"/>
+                    </Button>
+                    <TextBlock Text="Aktualisieren" FontSize="12" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10,0,0" MouseLeftButtonDown="SaveButton_Click" Cursor="Hand">
+                    <Button  Width="75" Margin="0,0,10,0" 
+                             IsDefault="True" 
+                             Click="SaveButton_Click" 
+                             Background="Transparent" 
+                             Cursor="Hand"
+                             MouseEnter="Button_MouseEnter"
+                             MouseLeave="Button_MouseEnter">
                         <Image Source="pack://application:,,,/Assets/save-icon.png"
                                        Width="50"
                                        Height="50"/>
                     </Button>
                     <TextBlock Text="Speichern" FontSize="12" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
-                </StackPanel>
-
-                <StackPanel>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10,0,0" MouseLeftButtonDown="SaveButton_Click" Cursor="Hand">
-                        <Button  Width="75" Margin="0,0,10,0" IsDefault="True" Click="OverrideFile_Click" Background="Transparent" Cursor="Hand">
-                            <Image Source="pack://application:,,,/Assets/update-file-icon.png"
-                                       Width="50"
-                                       Height="50"/>
-                        </Button>
-                        <TextBlock Text="Aktualisieren" FontSize="12" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
-                    </StackPanel>
                 </StackPanel>
             </WrapPanel>
         </StackPanel>

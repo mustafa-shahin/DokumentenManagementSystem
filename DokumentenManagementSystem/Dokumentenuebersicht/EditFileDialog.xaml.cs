@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.IO;
 using DMS.DataAccess;
+using DokumentenManagementSystem.UI_Behavior;
+using System.Windows.Input;
 namespace DokumentenManagementSystem.Dokumentenuebersicht
 {
     /// <summary>
@@ -98,6 +100,15 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
         private void OverrideFile_Click(object sender, RoutedEventArgs e)
         {
             FileOverride(this.file);
+        }
+
+        private void Button_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
+        }
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect.ResizeOnHover(sender, e);
         }
     }
 }
