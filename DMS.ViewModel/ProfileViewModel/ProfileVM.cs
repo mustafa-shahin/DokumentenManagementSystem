@@ -85,10 +85,8 @@ namespace DMS.ViewModel.ProfileVM
             PasswordsDoNotMatch = NewPassword != ConfirmPassword;
             if (NewPassword != ConfirmPassword)
                 return;
-            var validationResults = new List<ValidationResult>();
-            var context = new ValidationContext(_benutzer);
 
-            PasswordLength = Validator.TryValidateObject(_benutzer, context, validationResults, validateAllProperties: true);
+            PasswordLength = NewPassword.Length >= 8;
             if (PasswordLength)
             {
                 var success = await _benutzerService.VerifyAndUpdatePassword(_benutzer.Id, NewPassword);
