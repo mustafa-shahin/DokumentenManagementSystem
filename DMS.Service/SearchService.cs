@@ -22,6 +22,20 @@ namespace DMS.Service
                 .Where(d => d.Name.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase) &&
                             (d.IsVisibleAllUser || d.Ersteller.Id == currentUser.Id));
 
+            var userMatches = users.Where(u => u.Name.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase));
+            var userCreatedDocuments = documents
+                .Where(d => userMatches.Any(u => u.Id == d.Ersteller.Id && d.IsVisibleAllUser));
+
+            var allMatchingDocuments = matchingDocuments.Concat(userCreatedDocuments).Distinct();
+
+            searchResults.AddRange(allMatchingDocuments.Select(document => new SearchResultItem
+            {
+                Name = document.Name,
+                IsFolder = false,
+                Document = document,
+                Icon = "pack://application:,,,/Assets/file-icon.png",
+                Type = "Dokument"
+            }));
 
             searchResults.AddRange(matchingFolders.Select(folder => new SearchResultItem
             {
