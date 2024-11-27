@@ -20,6 +20,7 @@
     <None Remove="Assets\logout-icon.png" />
     <None Remove="Assets\save-icon.png" />
     <None Remove="Assets\search-icon.png" />
+    <None Remove="Assets\update-file-icon.png" />
     <None Remove="Assets\upload-icon.png" />
     <None Remove="Assets\user-icon.png" />
   </ItemGroup>
@@ -55,6 +56,7 @@
     <Resource Include="Assets\logout-icon.png" />
     <Resource Include="Assets\save-icon.png" />
     <Resource Include="Assets\search-icon.png" />
+    <Resource Include="Assets\update-file-icon.png" />
     <Resource Include="Assets\upload-icon.png" />
     <Resource Include="Assets\user-icon.png" />
   </ItemGroup>

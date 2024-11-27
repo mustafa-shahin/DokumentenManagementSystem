@@ -23,6 +23,11 @@ namespace DMS.ViewModel.Dokumentenuebersicht
         public bool IsEditingFile {  get; set; } = false;
         public bool DownloadDialog { get; set; } = false;
 
+        public DokumenteService DokumenteService
+        {
+            get { return _dokumenteService; }
+        }
+
         public Dokument SelectedFile
         {
             get => _selectedFile;
