@@ -7,6 +7,7 @@ using System.IO;
 using DMS.DataAccess;
 using DokumentenManagementSystem.UI_Behavior;
 using System.Windows.Input;
+using DMS.ViewModel.Dokumentenuebersicht;
 namespace DokumentenManagementSystem.Dokumentenuebersicht
 {
     /// <summary>
@@ -17,6 +18,7 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly DokumenteService _dokumenteService;
         private string _fileDescription;
+        private string _fileName;
         private Dokument file;
         public string FileDescription
         {
@@ -25,6 +27,15 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
             {
                 _fileDescription = value;
                 OnPropertyChanged(nameof(FileDescription));
+            }
+        }
+        public string FileName
+        {
+            get => _fileName;
+            set
+            {
+                _fileName = value;
+                OnPropertyChanged(nameof(FileName));
             }
         }
 
@@ -48,6 +59,7 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
             _dokumenteService = dokumenteService;
             this.file = file;
             DataContext = this;
+            FileName = file.Name;
             FileDescription = file.Description;
             IsVisibleAllUser = file.IsVisibleAllUser;
         }
@@ -71,6 +83,8 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
             {
                 var newFileContent = File.ReadAllBytes(filePath);
 
+                var newFileName = Path.GetFileName(filePath);
+
                 if (double.TryParse(file.Version, out double currentVersion))
                 {
                     file.Version = (currentVersion + 1).ToString("F1");
@@ -82,10 +96,10 @@ namespace DokumentenManagementSystem.Dokumentenuebersicht
 
                 file.Content = newFileContent;
 
-                file.Name = Path.GetFileName(filePath);
+                file.Name = newFileName; 
+                FileName = newFileName;   
 
                 _dokumenteService.UpdateFile(file);
-                
 
                 MessageBox.Show("Die Datei wurde erfolgreich überschrieben und die Version aktualisiert!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();

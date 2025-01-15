@@ -150,12 +150,13 @@ namespace DMS.View.Dokumentenuebersicht
 
             if (result == true)
             {
+                file.Name = editDialog.FileName;
                 file.Description = editDialog.FileDescription;
                 file.IsVisibleAllUser = editDialog.IsVisibleAllUser;
                 _viewModel.SaveFileCommand.Execute(file);
-                _viewModel.LoadFiles();
+                
             }
-
+            _viewModel.LoadFiles();
             _viewModel.IsEditingFile = false;
 
         }
